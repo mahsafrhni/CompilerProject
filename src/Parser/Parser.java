@@ -120,34 +120,6 @@ public class Parser {
         }
     }
 
-    class TableCell {
-        private Action act;
-        private int goal;
-        private List<String> function;
-
-        public TableCell(Action act, int goal, List<String> function) {
-            this.act = act;
-            this.goal = goal;
-            this.function = function;
-        }
-
-        public Action getAct() {
-            return act;
-        }
-
-        public int getGoal() {
-            return goal;
-        }
-
-        public List<String> getFunction() {
-            return function;
-        }
-    }
-
-    enum Action {
-        ERROR, SHIFT, GOTO, PUSH_GOTO, REDUCE, ACCEPT
-    }
-
     private int TokenId() {  //next token id
         String token = lex.nextToken();
         for (int i = 0; i < symbols.length; i++) {
@@ -189,4 +161,32 @@ public class Parser {
             codeGen.doSemantic(function);
         }
     }
+}
+
+class TableCell {
+    private Action act;
+    private int goal;
+    private List<String> function;
+
+    public TableCell(Action act, int goal, List<String> function) {
+        this.act = act;
+        this.goal = goal;
+        this.function = function;
+    }
+
+    public Action getAct() {
+        return act;
+    }
+
+    public int getGoal() {
+        return goal;
+    }
+
+    public List<String> getFunction() {
+        return function;
+    }
+}
+
+enum Action {
+    ERROR, SHIFT, GOTO, PUSH_GOTO, REDUCE, ACCEPT
 }
