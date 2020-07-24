@@ -1,4 +1,4 @@
 package CodeGen.Parts;
 
-public interface Op { //operations
+public interface Op extends Node  { //operations
 }

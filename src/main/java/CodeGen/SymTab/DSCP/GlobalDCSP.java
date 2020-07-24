@@ -1,4 +1,4 @@
 package CodeGen.SymTab.DSCP;
 
-public class Global {
+public class GlobalDCSP {
 }

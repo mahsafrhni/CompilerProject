@@ -1,4 +1,6 @@
 package CodeGen.Parts.Dec;
 
-public interface Dec {  //declaration
+import CodeGen.Parts.Node;
+
+public interface Dec extends Node {  //declaration
 }

@@ -1,4 +1,4 @@
 package CodeGen.SymTab.DSCP;
 
-public class GlobalArr {
+public class GlobalArrDCSP {
 }
