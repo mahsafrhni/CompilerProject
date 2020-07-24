@@ -17,11 +17,11 @@ import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.ATHROW;
 
 @Data
-public class ArrayVar extends Var {
+public class ArrVar extends Var {
 
     private List<Expression> dimensions;
 
-    public ArrayVar(String name, List<Expression> dimensions, Type type) {
+    public ArrVar(String name, List<Expression> dimensions, Type type) {
         this.name = name;
         this.dimensions = dimensions;
         this.type = type;

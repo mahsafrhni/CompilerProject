@@ -2,10 +2,10 @@ package CodeGen.Parts.Dec.var;
 
 import CodeGen.Parts.Expression.Const.IntegerConst;
 import CodeGen.Parts.Expression.Expression;
+import CodeGen.SymTab.DSCP.DCSP;
 import CodeGen.SymTab.DSCP.GlobalArrDCSP;
 import CodeGen.SymTab.DSCP.LocalArrDCSP;
 import CodeGen.SymTab.SymTabHandler;
-import CodeGen.SymTab.SymbolTableHandler;
 import lombok.Data;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -64,7 +64,7 @@ public class ArrDCL extends VarDCL {
                 if (type.getDescriptor().endsWith(";"))
                     mv.visitTypeInsn(ANEWARRAY, getType().getElementType().getInternalName());
                 else
-                    mv.visitIntInsn(NEWARRAY, SymbTabHandler.getTType(getType().getElementType()));
+                    mv.visitIntInsn(NEWARRAY, SymTabHandler.getTType(getType().getElementType()));
             } else{
                 String t = "";
                 for (int i = 0; i < dimNum; i++) {
@@ -73,7 +73,7 @@ public class ArrDCL extends VarDCL {
                 t += type.getDescriptor();
                 mv.visitMultiANewArrayInsn(t, dimensions.size());
             }
-            mv.visitVarInsn(ASTORE, SymbolTableHandler.getInstance().getIndex());
+            mv.visitVarInsn(ASTORE, SymTabHandler.getInstance().getIndex());
         }
     }
     private void executeGlobalExp(ClassWriter cw,MethodVisitor mv){
@@ -83,12 +83,12 @@ public class ArrDCL extends VarDCL {
         }
     }
     public static void declare(String name,Type type,List<Expression> dimensions,int dimNum,boolean global) {
-        DSCP dscp;
+        DCSP dscp;
         if (!global)
             dscp = new LocalArrDCSP(type, true, SymTabHandler.getInstance().getIndex(), dimensions, dimNum);
         else
             dscp = new GlobalArrDCSP(type, true, dimensions, dimNum);
-        SymbTabHandler.getInstance().addVariable(name, dscp);
+        SymTabHandler.getInstance().addVariable(name, dscp);
 
     }
 }

@@ -1,4 +1,25 @@
 package CodeGen.SymTab.DSCP;
 
-public class LocalArrDCSP {
+import CodeGen.Parts.Expression.Expression;
+import lombok.Data;
+import org.objectweb.asm.Type;
+
+import java.util.List;
+
+@Data
+public class LocalArrDCSP extends LocalDCSP {
+    protected List<Expression> dimList;
+    protected int dimNum;
+
+    public LocalArrDCSP(Type type, boolean isValid, int index, List<Expression> dimList, int dimNum) {
+        super(type, isValid, index);
+        this.dimList = dimList;
+        this.dimNum = dimNum;
+    }
+
+    public LocalArrDCSP(Type type, boolean isValid, int index, int dimNum) {
+        super(type, isValid, index);
+        this.dimNum = dimNum;
+    }
 }
+

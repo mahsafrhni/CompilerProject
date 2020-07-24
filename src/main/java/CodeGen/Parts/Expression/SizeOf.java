@@ -7,10 +7,10 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-public class Sizeof extends Expression implements Op {
+public class SizeOf extends Expression implements Op {
     private Integer value;
 
-    public Sizeof(String baseType) {
+    public SizeOf(String baseType) {
         value = SymTabHandler.getSize(baseType);
         type = Type.INT_TYPE;
     }

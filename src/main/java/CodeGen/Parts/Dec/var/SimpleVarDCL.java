@@ -1,39 +1,32 @@
 package CodeGen.Parts.Dec.var;
-
 import CodeGen.Parts.Expression.Expression;
 import CodeGen.Parts.Expression.var.SimpleVar;
+import CodeGen.Parts.Expression.var.Var;
 import CodeGen.SymTab.DSCP.DCSP;
 import CodeGen.SymTab.DSCP.GlobalVarDCSP;
 import CodeGen.SymTab.DSCP.LocalDCSP;
 import CodeGen.SymTab.DSCP.LocalVarDCSP;
 import CodeGen.SymTab.SymTabHandler;
-import com.sun.org.apache.xpath.internal.operations.Variable;
 import lombok.Data;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
-
-import static org.objectweb.asm.Opcodes.*;
-
 @Data
-public class SimpleVarDcl extends VarDCL {
+public class SimpleVarDCL extends VarDCL {
     private boolean constant;
     private Expression exp;
     private String stringType;
-
     public void setExp(Expression exp) {
         this.exp = exp;
         SymTabHandler.getInstance().getDescriptor(name).setValid(true);
     }
-
-    public SimpleVarDcl(String varName, Type type, boolean constant, boolean global) {
+    public SimpleVarDCL(String varName, Type type, boolean constant, boolean global) {
         name = varName;
         this.type = type;
         this.constant = constant;
         this.global = global;
     }
-
-    public SimpleVarDcl(String varName, String type, boolean constant, boolean global, Expression exp) {
+    public SimpleVarDCL(String varName, String type, boolean constant, boolean global, Expression exp) {
         name = varName;
         stringType = type;
         if (!type.equals("auto"))
@@ -49,12 +42,11 @@ public class SimpleVarDcl extends VarDCL {
             else
                 phonyExpExe();
     }
-
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
-        try {
+        try{
             SymTabHandler.getInstance().getDescriptor(name);
-        } catch (Exception e) {
+        }catch (Exception e){
             declare();
         }
         if (global) {
@@ -75,18 +67,15 @@ public class SimpleVarDcl extends VarDCL {
             mv.visitVarInsn(type.getOpcode(ISTORE), dscp.getIndex());
         }
     }
-
     private void phonyExpExe() {
         TempMethodVisitor tempMV = new TempMethodVisitor();
         TempClassWriter tempCW = new TempClassWriter();
         exp.codegen(tempMV, tempCW);
         type = exp.getType();
     }
-
     private void executeGlobalExp(ClassWriter cw, MethodVisitor mv) {
         assign(new SimpleVar(name, type), exp, mv, cw);
     }
-
     public void declare() {
         DCSP dscp;
         if (!global)
@@ -96,8 +85,8 @@ public class SimpleVarDcl extends VarDCL {
             dscp = new GlobalVarDCSP(type, exp != null, constant);
         SymTabHandler.getInstance().addVariable(name, dscp);
     }
-
-    private void assign(Variable variable, Expression expression, MethodVisitor mv, ClassWriter cw) {
+    private void assign(Var variable, Expression expression,
+                        MethodVisitor mv, ClassWriter cw) {
         DCSP dscp = variable.getDSCP();
         expression.codegen(mv, cw);
         if (variable.getType() != expression.getType())
@@ -110,6 +99,7 @@ public class SimpleVarDcl extends VarDCL {
         dscp.setValid(true);
     }
 }
+
 
 class TempMethodVisitor extends MethodVisitor {
     public TempMethodVisitor() {

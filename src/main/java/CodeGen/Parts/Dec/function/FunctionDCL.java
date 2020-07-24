@@ -23,23 +23,20 @@ import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
 @Data
 public class FunctionDcl implements Dec {
-
     private Type type;
     private String name;
     private List<ParamPair> parameters = new ArrayList<>();
     private List<Type> paramTypes = new ArrayList<>();
     private String signature;
     private Block block;
-
     private List<ReturnFunc> returns = new ArrayList<>();
 
     public void addReturn(ReturnFunc funcReturn) {
         returns.add(funcReturn);
     }
 
-
     public void addParameter(String name, LocalDCSP dscp) {
-        ParamPair param = new ParamPair(name,dscp);
+        ParamPair param = new ParamPair(name, dscp);
         parameters.add(param);
         if (dscp instanceof LocalVarDCSP)
             paramTypes.add(dscp.getType());
@@ -47,13 +44,11 @@ public class FunctionDcl implements Dec {
             paramTypes.add(Type.getType("[" + dscp.getType()));
     }
 
-
     public FunctionDcl(Type type, String name, Block block, List<ParamPair> parameters) {
         this.type = type;
         this.name = name;
         this.block = block;
         this.parameters = parameters;
-
         // to fill paramTypes and make signature
         setSig();
     }
@@ -64,13 +59,11 @@ public class FunctionDcl implements Dec {
         this.type = Type.getType(signature.substring(signature.indexOf(')') + 1));
         this.name = name;
         this.block = block;
-
     }
 
     public void declare() {
         SymTabHandler.getInstance().addFunction(this);
     }
-
 
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
@@ -80,7 +73,7 @@ public class FunctionDcl implements Dec {
         //Add current function's symbol table to stackScope
         SymTabHandler.getInstance().addScope(Scope.FUNCTION);
         parameters.forEach((paramPair) -> {
-            SymTabHandler.getInstance().addVariable(paramPair.name,paramPair.dscp);
+            SymTabHandler.getInstance().addVariable(paramPair.name, paramPair.dscp);
         });
         SymTabHandler.getInstance().setLastFunction(this);
         methodVisitor.visitCode();
@@ -108,7 +101,6 @@ public class FunctionDcl implements Dec {
             if (!this.paramTypes.get(i).equals(paramTypes.get(i)))
                 return false;
         }
-
         return true;
     }
 
@@ -116,7 +108,7 @@ public class FunctionDcl implements Dec {
         paramTypes = new ArrayList<>();
         // to fill paramTypes and make signature
         StringBuilder signature = new StringBuilder("(");
-        for (ParamPair param:
+        for (ParamPair param :
                 parameters) {
             Type type = param.dscp.getType();
             if (param.dscp instanceof LocalArrDCSP)
@@ -130,7 +122,7 @@ public class FunctionDcl implements Dec {
     }
 }
 
-class ParamPair{
+class ParamPair {
     String name;
     LocalDCSP dscp;
 

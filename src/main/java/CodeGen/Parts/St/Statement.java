@@ -1,4 +1,6 @@
 package CodeGen.Parts.St;
 
-public class Statement {
+import CodeGen.Parts.Op;
+
+public abstract class Statement implements Op {
 }

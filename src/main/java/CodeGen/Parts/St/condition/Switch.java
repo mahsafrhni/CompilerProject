@@ -1,4 +1,67 @@
 package CodeGen.Parts.St.condition;
 
-public class Switch {
+import CodeGen.Parts.Block.Block;
+import CodeGen.Parts.Expression.Expression;
+import CodeGen.Parts.St.Statement;
+import CodeGen.SymTab.Scope;
+import CodeGen.SymTab.SymTabHandler;
+import lombok.Data;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+
+import java.util.ArrayList;
+
+import static org.objectweb.asm.Opcodes.GOTO;
+
+@Data
+public class Switch extends Statement {
+    private Expression expression;
+    private ArrayList<Case> cases;
+    private Block defaultBlock;
+    private Label defaultLabel = new Label();
+    private Label lookUpTable = new Label();
+    private Label end = new Label();
+
+    public Switch(Expression expression, ArrayList<Case> cases, Block defaultBlock){
+        this.expression = expression;
+        this.cases = cases;
+        this.defaultBlock = defaultBlock;
+    }
+
+    public void addCase(Case caseSt){
+        if(cases == null)
+            cases = new ArrayList<>();
+        cases.add(caseSt);
+    }
+
+    @Override
+    public void codegen(MethodVisitor mv, ClassWriter cw) {
+        SymTabHandler.getInstance().addScope(Scope.SWITCH);
+        SymTabHandler.getInstance().setLastSwitch(this);
+        Label [] labels = new Label[cases.size()];
+        int [] keys = new int[cases.size()];
+        int i = 0 ;
+        expression.codegen(mv, cw);
+        mv.visitJumpInsn(GOTO, lookUpTable);
+        for(Case c : cases){
+            c.jump = end;
+            c.codegen(mv, cw);
+            labels[i] = c.StartCase;
+            keys[i++] = (int) c.exp.getValue();
+        }
+        mv.visitLabel(defaultLabel);
+        if (defaultBlock != null) {
+            SymTabHandler.getInstance().addScope(Scope.SWITCH);
+            defaultBlock.codegen(mv, cw);
+            SymTabHandler.getInstance().popScope();
+        }
+        mv.visitJumpInsn(GOTO, end);
+        mv.visitLabel(lookUpTable);
+        mv.visitLookupSwitchInsn(defaultLabel, keys, labels);
+        mv.visitLabel(end);
+        SymTabHandler.getInstance().popScope();
+        SymTabHandler.getInstance().setLastSwitch(null);
+    }
 }
+
