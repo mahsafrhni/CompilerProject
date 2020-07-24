@@ -1,5 +1,5 @@
 package Parser;
 
-public interface CodeGen {
+public interface CodeGenerator {
     void doSemantic(String sem);
 }

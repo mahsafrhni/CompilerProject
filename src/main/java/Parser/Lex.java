@@ -1,8 +1,8 @@
 package Parser;
 
-import Scanner.Symbol;
+import Lexical.MySymbol;
 
 public interface Lex {
-    Symbol currentToken();
+    MySymbol currentToken();
     String nextToken();
 }

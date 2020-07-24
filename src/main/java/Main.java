@@ -1,22 +1,25 @@
+
 import CodeGen.CodeGen;
+import CodeGen.CodeGenerator;
 import CodeGen.Parts.Node;
+import Lexical.myScanner;
 import Parser.Parser;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(new FileReader("test.txt"));
-        CodeGen codeGenerator = new CodeGen(scanner);
+        myScanner scanner = new myScanner(new FileReader("test.txt"));
+        CodeGenerator codeGenerator = new CodeGenerator(scanner);
         parseInput(scanner, codeGenerator);
     }
 
-    private static void parseInput(Scanner lexicalAnalyzer, CodeGen.CodeGen codeGenerator) {
+    private static void parseInput(myScanner lexicalAnalyzer, CodeGenerator codeGenerator) {
         Parser parser = new Parser(lexicalAnalyzer,
                 codeGenerator, "src/main/java/ir/ac/sbu/syntax/table.npt");
         Node result;

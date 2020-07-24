@@ -1,14 +1,15 @@
 package CodeGen;
 
-
 import CodeGen.Parts.Block.Block;
 import CodeGen.Parts.Block.GlobalBlock;
 import CodeGen.Parts.Dec.Dec;
 import CodeGen.Parts.Dec.function.FunctionDcl;
 import CodeGen.Parts.Dec.var.ArrDCL;
-import CodeGen.Parts.Dec.var.SimpleVarDcl;
-import CodeGen.Parts.Expression.*;
+import CodeGen.Parts.Dec.var.SimpleVarDCL;
 import CodeGen.Parts.Expression.Const.*;
+import CodeGen.Parts.Expression.Expression;
+import CodeGen.Parts.Expression.FuncCall;
+import CodeGen.Parts.Expression.Input;
 import CodeGen.Parts.Expression.binary.arithmetic.*;
 import CodeGen.Parts.Expression.binary.condition.*;
 import CodeGen.Parts.Expression.unary.*;
@@ -33,6 +34,7 @@ import CodeGen.Parts.St.loop.StepExp;
 import CodeGen.SymTab.DSCP.*;
 import CodeGen.SymTab.Scope;
 import CodeGen.SymTab.SymTabHandler;
+import Parser.Lex;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -40,11 +42,11 @@ import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CodeGen implements CodeGen.CodeGen {
-    private Lexical lexical;
+public class CodeGenerator implements Parser.CodeGen {
+    private Lex lexical;
     private SS semanticStack;
 
-    public CodeGen(Lexical lexical) {
+    public CodeGenerator(Lex lexical) {
         this.lexical = lexical;
         semanticStack = new SS();
         semanticStack.push(GlobalBlock.getInstance());
@@ -150,7 +152,7 @@ public class CodeGen implements CodeGen.CodeGen {
                 Expression exp = (Expression) semanticStack.pop();
                 String name = ((NOP) semanticStack.pop()).name;
                 DCSP dscp = SymTabHandler.getInstance().getDescriptor(name);
-                SimpleVarDcl varDcl = new SimpleVarDcl(name, dscp.getType(), dscp.isConstant(), dscp instanceof GlobalDCSP);
+                SimpleVarDCL varDcl = new SimpleVarDCL(name, dscp.getType(), dscp.isConstant(), dscp instanceof GlobalDCSP);
                 varDcl.setExp(exp);
                 semanticStack.push(varDcl);
                 break;
@@ -158,11 +160,11 @@ public class CodeGen implements CodeGen.CodeGen {
             case "mkSimpleAutoVarDCL": {
                 Expression exp = (Expression) semanticStack.pop();
                 String varName = (String) semanticStack.pop();
-                SimpleVarDcl varDcl;
+                SimpleVarDCL varDcl;
                 if (semanticStack.peek() instanceof GlobalBlock)
-                    varDcl = new SimpleVarDcl(varName, "auto", false, true, exp);
+                    varDcl = new SimpleVarDCL(varName, "auto", false, true, exp);
                 else
-                    varDcl = new SimpleVarDcl(varName, "auto", false, false, exp);
+                    varDcl = new SimpleVarDCL(varName, "auto", false, false, exp);
                 varDcl.declare();
                 semanticStack.push(varDcl);
                 break;
