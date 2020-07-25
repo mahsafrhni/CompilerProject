@@ -19,7 +19,49 @@ import static org.objectweb.asm.Opcodes.IFEQ;
 public class If extends Statement {
 
     private Expression expression;
-    private Block ifBlock, elseBlock;
+    private Block ifBlock;
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
+
+    public Block getIfBlock() {
+        return ifBlock;
+    }
+
+    public void setIfBlock(Block ifBlock) {
+        this.ifBlock = ifBlock;
+    }
+
+    public Block getElseBlock() {
+        return elseBlock;
+    }
+
+    public void setElseBlock(Block elseBlock) {
+        this.elseBlock = elseBlock;
+    }
+
+    public Label getStartElse() {
+        return startElse;
+    }
+
+    public void setStartElse(Label startElse) {
+        this.startElse = startElse;
+    }
+
+    public Label getEndElse() {
+        return endElse;
+    }
+
+    public void setEndElse(Label endElse) {
+        this.endElse = endElse;
+    }
+
+    private Block elseBlock;
     private Label startElse = new Label();
     private Label endElse = new Label();
 

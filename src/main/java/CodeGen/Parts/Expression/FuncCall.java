@@ -1,6 +1,6 @@
 package CodeGen.Parts.Expression;
 
-import CodeGen.Parts.Dec.function.FunctionDcl;
+import CodeGen.Parts.Dec.function.FunctionDCL;
 import CodeGen.Parts.Op;
 import CodeGen.SymTab.SymTabHandler;
 import org.objectweb.asm.ClassWriter;
@@ -15,7 +15,7 @@ import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 public class FuncCall extends Expression implements Op {
     private String id;
     private List<Expression> parameters;
-    private FunctionDcl func;
+    private FunctionDCL func;
 
     public FuncCall(String id, ArrayList<Expression> parameters) {
         this.id = id;

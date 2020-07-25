@@ -5,6 +5,30 @@ import CodeGen.Parts.St.Statement;
 import org.objectweb.asm.Label;
 
 public abstract class Loop extends Statement {
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
+    }
+
+    public Label getStartLoop() {
+        return startLoop;
+    }
+
+    public void setStartLoop(Label startLoop) {
+        this.startLoop = startLoop;
+    }
+
+    public Label getEnd() {
+        return end;
+    }
+
+    public void setEnd(Label end) {
+        this.end = end;
+    }
+
     protected Block block;
     Label startLoop = new Label();
     Label end = new Label();

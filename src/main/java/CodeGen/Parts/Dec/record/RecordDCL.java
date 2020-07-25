@@ -7,6 +7,14 @@ import org.objectweb.asm.MethodVisitor;
 
 @Data
 public class RecordDCL implements Dec {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String name;
 
     @Override

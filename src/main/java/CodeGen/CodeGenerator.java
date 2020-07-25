@@ -3,13 +3,11 @@ package CodeGen;
 import CodeGen.Parts.Block.Block;
 import CodeGen.Parts.Block.GlobalBlock;
 import CodeGen.Parts.Dec.Dec;
-import CodeGen.Parts.Dec.function.FunctionDcl;
+import CodeGen.Parts.Dec.function.FunctionDCL;
 import CodeGen.Parts.Dec.var.ArrDCL;
 import CodeGen.Parts.Dec.var.SimpleVarDCL;
+import CodeGen.Parts.Expression.*;
 import CodeGen.Parts.Expression.Const.*;
-import CodeGen.Parts.Expression.Expression;
-import CodeGen.Parts.Expression.FuncCall;
-import CodeGen.Parts.Expression.Input;
 import CodeGen.Parts.Expression.binary.arithmetic.*;
 import CodeGen.Parts.Expression.binary.condition.*;
 import CodeGen.Parts.Expression.unary.*;
@@ -42,7 +40,7 @@ import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CodeGenerator implements Parser.CodeGen {
+public class CodeGenerator implements Parser.CodeGenerator {
     private Lex lexical;
     private SS semanticStack;
 
@@ -80,7 +78,7 @@ public class CodeGenerator implements Parser.CodeGen {
             /* --------------------- declarations --------------------- */
             case "mkFuncDCL": {
                 Type type = SymTabHandler.getTypeFromName((String) semanticStack.pop());
-                FunctionDcl functionDcl = new FunctionDcl(type,
+                FunctionDCL functionDcl = new FunctionDCL(type,
                         (String) lexical.currentToken().getValue(), null, new ArrayList<>());
                 semanticStack.push(functionDcl);
                 SymTabHandler.getInstance().setLastFunction(functionDcl);
@@ -91,14 +89,14 @@ public class CodeGenerator implements Parser.CodeGen {
                 String name = ((NOP) semanticStack.pop()).name;
                 LocalDCSP dscp = (LocalDCSP) SymTabHandler.getInstance().getDescriptor(name);
                 dscp.setValid(true);
-                FunctionDcl function = (FunctionDcl) semanticStack.pop();
+                FunctionDCL function = (FunctionDCL) semanticStack.pop();
                 function.addParameter(name, dscp);
                 semanticStack.push(function);
                 break;
             }
             case "completeFuncDCL": {
                 Block block = (Block) semanticStack.pop();
-                FunctionDcl function = (FunctionDcl) semanticStack.pop();
+                FunctionDCL function = (FunctionDCL) semanticStack.pop();
                 function.setBlock(block);
                 semanticStack.push(function);
                 SymTabHandler.getInstance().setLastFunction(null);
@@ -106,7 +104,7 @@ public class CodeGenerator implements Parser.CodeGen {
                 break;
             }
             case "addFuncDCL": {
-                FunctionDcl function = (FunctionDcl) semanticStack.pop();
+                FunctionDCL function = (FunctionDCL) semanticStack.pop();
                 function.declare();
                 semanticStack.push(function);
                 break;
@@ -142,8 +140,8 @@ public class CodeGenerator implements Parser.CodeGen {
             }
             case "addGlobalBlock": {
                 Dec declaration = (Dec) semanticStack.pop();
-                if (declaration instanceof FunctionDcl)
-                    addFuncToGlobalBlock((FunctionDcl) declaration);
+                if (declaration instanceof FunctionDCL)
+                    addFuncToGlobalBlock((FunctionDCL) declaration);
                 else
                     GlobalBlock.getInstance().addDeclaration(declaration);
                 break;
@@ -203,7 +201,7 @@ public class CodeGenerator implements Parser.CodeGen {
                 if (semanticStack.peek() instanceof GlobalBlock) {
                     if (((GlobalArrDCSP) dscp).getDimNum() != flag)
                         throw new RuntimeException("Number of dimensions doesn't match");
-                    arrDcl = new ArrDcl(name, type, true, flag);
+                    arrDcl = new ArrDCL(name, type, true, flag);
                     ((GlobalArrDCSP) dscp).setDimList(expressionList);
                 } else {
                     if (((LocalArrDCSP) dscp).getDimNum() != flag)
@@ -231,7 +229,7 @@ public class CodeGenerator implements Parser.CodeGen {
                     arrDcl = new ArrDCL(name, type, false, expressionList.size());
                     arrDcl.declare(name, type, expressionList, expressionList.size(), false);
                 }
-                arrDcl.setDimensions(expressionList);
+                ArrDCL.setDimensions(expressionList);
                 semanticStack.push(arrDcl);
                 break;
             }
@@ -526,7 +524,7 @@ public class CodeGenerator implements Parser.CodeGen {
             /* ---------------------- functions ---------------------------- */
             case "voidReturn": {
                 Block block = (Block) semanticStack.pop();
-                FunctionDcl functionDcl = SymTabHandler.getInstance().getLastFunction();
+                FunctionDCL functionDcl = SymTabHandler.getInstance().getLastFunction();
                 ReturnFunc funcReturn = new ReturnFunc(null, functionDcl);
                 functionDcl.addReturn(funcReturn);
                 block.addOperation(funcReturn);
@@ -536,7 +534,7 @@ public class CodeGenerator implements Parser.CodeGen {
             case "return": {
                 Expression exp = (Expression) semanticStack.pop();
                 Block block = (Block) semanticStack.pop();
-                FunctionDcl functionDcl = SymTabHandler.getInstance().getLastFunction();
+                FunctionDCL functionDcl = SymTabHandler.getInstance().getLastFunction();
                 ReturnFunc funcReturn = new ReturnFunc(exp, functionDcl);
                 functionDcl.addReturn(funcReturn);
                 block.addOperation(funcReturn);
@@ -691,10 +689,10 @@ public class CodeGenerator implements Parser.CodeGen {
         }
     }
 
-    private void addFuncToGlobalBlock(FunctionDcl function) {
+    private void addFuncToGlobalBlock(FunctionDCL function) {
         if (GlobalBlock.getInstance().getDeclarationList().contains(function)) {
             int index = GlobalBlock.getInstance().getDeclarationList().indexOf(function);
-            FunctionDcl lastFunc = (FunctionDcl) GlobalBlock.getInstance().getDeclarationList().get(index);
+            FunctionDCL lastFunc = (FunctionDCL) GlobalBlock.getInstance().getDeclarationList().get(index);
             if (lastFunc.getBlock() == null && function.getBlock() != null) {
                 GlobalBlock.getInstance().getDeclarationList().remove(lastFunc);
                 GlobalBlock.getInstance().addDeclaration(function);

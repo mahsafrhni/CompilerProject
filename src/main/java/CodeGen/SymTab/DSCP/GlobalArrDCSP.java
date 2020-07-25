@@ -10,6 +10,23 @@ import java.util.List;
 public class GlobalArrDCSP extends GlobalDCSP {
 
     protected List<Expression> dimList;
+
+    public List<Expression> getDimList() {
+        return dimList;
+    }
+
+    public void setDimList(List<Expression> dimList) {
+        this.dimList = dimList;
+    }
+
+    public int getDimNum() {
+        return dimNum;
+    }
+
+    public void setDimNum(int dimNum) {
+        this.dimNum = dimNum;
+    }
+
     protected int dimNum;
 
     public GlobalArrDCSP(Type type, boolean isValid, List<Expression> dimList, int dimNum) {

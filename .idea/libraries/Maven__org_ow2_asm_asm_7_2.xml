@@ -1,13 +1,26 @@
 <component name="libraryTable">
   <library name="Maven: org.ow2.asm:asm:7.2">
+    <ANNOTATIONS>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm/7.2/asm-7.2.jar!/" />
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" />
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm/7.2/asm-7.2-javadoc.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
     </JAVADOC>
+    <NATIVE>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </NATIVE>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm/7.2/asm-7.2-sources.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
     </SOURCES>
+    <jarDirectory url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" recursive="false" />
+    <jarDirectory url="file://$APPLICATION_HOME_DIR$/jbr" recursive="false" />
+    <jarDirectory url="file://$APPLICATION_HOME_DIR$/jbr" recursive="false" type="SOURCES" />
   </library>
 </component>

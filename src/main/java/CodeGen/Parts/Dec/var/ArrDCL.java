@@ -19,6 +19,22 @@ import static org.objectweb.asm.Opcodes.ASTORE;
 
 @Data
 public class ArrDCL extends VarDCL {
+    public List<Expression> getDimensions() {
+        return dimensions;
+    }
+
+    public static void setDimensions(List<Expression> dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public int getDimNum() {
+        return dimNum;
+    }
+
+    public void setDimNum(int dimNum) {
+        this.dimNum = dimNum;
+    }
+
     private List<Expression> dimensions;
     private int dimNum;
     public ArrDCL(String name, Type type, boolean global, int dimNum) {

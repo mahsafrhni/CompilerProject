@@ -22,12 +22,69 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
 @Data
-public class FunctionDcl implements Dec {
+public class FunctionDCL implements Dec {
     private Type type;
     private String name;
     private List<ParamPair> parameters = new ArrayList<>();
     private List<Type> paramTypes = new ArrayList<>();
     private String signature;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<ParamPair> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<ParamPair> parameters) {
+        this.parameters = parameters;
+    }
+
+    public List<Type> getParamTypes() {
+        return paramTypes;
+    }
+
+    public void setParamTypes(List<Type> paramTypes) {
+        this.paramTypes = paramTypes;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
+    }
+
+    public List<ReturnFunc> getReturns() {
+        return returns;
+    }
+
+    public void setReturns(List<ReturnFunc> returns) {
+        this.returns = returns;
+    }
+
     private Block block;
     private List<ReturnFunc> returns = new ArrayList<>();
 
@@ -44,7 +101,7 @@ public class FunctionDcl implements Dec {
             paramTypes.add(Type.getType("[" + dscp.getType()));
     }
 
-    public FunctionDcl(Type type, String name, Block block, List<ParamPair> parameters) {
+    public FunctionDCL(Type type, String name, Block block, List<ParamPair> parameters) {
         this.type = type;
         this.name = name;
         this.block = block;
@@ -53,7 +110,7 @@ public class FunctionDcl implements Dec {
         setSig();
     }
 
-    public FunctionDcl(String name, String signature, Block block) {
+    public FunctionDCL(String name, String signature, Block block) {
         this.signature = signature;
         paramTypes = Arrays.asList(Type.getArgumentTypes(signature));
         this.type = Type.getType(signature.substring(signature.indexOf(')') + 1));
@@ -88,7 +145,7 @@ public class FunctionDcl implements Dec {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof FunctionDcl && checkIfEqual(((FunctionDcl) o).name, ((FunctionDcl) o).paramTypes);
+        return o instanceof FunctionDCL && checkIfEqual(((FunctionDCL) o).name, ((FunctionDCL) o).paramTypes);
     }
 
     // check if two functions are the same

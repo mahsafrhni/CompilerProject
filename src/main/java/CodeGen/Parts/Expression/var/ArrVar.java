@@ -19,6 +19,14 @@ import static org.objectweb.asm.Opcodes.ATHROW;
 @Data
 public class ArrVar extends Var {
 
+    public List<Expression> getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(List<Expression> dimensions) {
+        this.dimensions = dimensions;
+    }
+
     private List<Expression> dimensions;
 
     public ArrVar(String name, List<Expression> dimensions, Type type) {

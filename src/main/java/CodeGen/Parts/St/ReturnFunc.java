@@ -1,6 +1,6 @@
 package CodeGen.Parts.St;
 
-import CodeGen.Parts.Dec.function.FunctionDcl;
+import CodeGen.Parts.Dec.function.FunctionDCL;
 import CodeGen.Parts.Expression.Expression;
 import CodeGen.SymTab.SymTab;
 import CodeGen.SymTab.SymTabHandler;
@@ -16,7 +16,7 @@ public class ReturnFunc extends Statement {
     private Expression expression;
     private SymTab scope;
 
-    public ReturnFunc(Expression expression, FunctionDcl funcDcl) {
+    public ReturnFunc(Expression expression, FunctionDCL funcDcl) {
         this.expression = expression;
         funcDcl.addReturn(this);
         if((expression == null && !funcDcl.getType().equals(Type.VOID_TYPE)) ||
@@ -27,7 +27,7 @@ public class ReturnFunc extends Statement {
 
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
-        FunctionDcl functionDcl = SymTabHandler.getInstance().getLastFunction();
+        FunctionDCL functionDcl = SymTabHandler.getInstance().getLastFunction();
         scope = SymTabHandler.getInstance().getLastScope();
         int index = functionDcl.getReturns().indexOf(this);
         for (int i = 0; i < index; i++)  {

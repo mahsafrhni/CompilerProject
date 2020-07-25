@@ -14,6 +14,18 @@ import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
 @Data
 public class GlobalBlock implements Node {
+    public List<Node> getDeclarationList() {
+        return declarationList;
+    }
+
+    public void setDeclarationList(List<Node> declarationList) {
+        this.declarationList = declarationList;
+    }
+
+    public static void setInstance(GlobalBlock instance) {
+        GlobalBlock.instance = instance;
+    }
+
     private List<Node> declarationList;
     private static GlobalBlock instance = new GlobalBlock();
 

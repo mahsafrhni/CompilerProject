@@ -1,5 +1,6 @@
 package CodeGen.Parts.Expression;
 
+import CodeGen.Parts.Expression.var.ArrVar;
 import CodeGen.Parts.Op;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -17,7 +18,7 @@ public class Len extends Expression implements Op {
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         expression.codegen(mv, cw);
         type = expression.getType();
-        if (expression instanceof ArrayVar) {
+        if (expression instanceof ArrVar) {
             mv.visitInsn(ARRAYLENGTH);
         } else
             throw new RuntimeException("input of len function is not iterable");

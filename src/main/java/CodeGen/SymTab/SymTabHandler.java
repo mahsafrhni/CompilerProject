@@ -1,6 +1,6 @@
 package CodeGen.SymTab;
 
-import CodeGen.Parts.Dec.function.FunctionDcl;
+import CodeGen.Parts.Dec.function.FunctionDCL;
 import CodeGen.Parts.Dec.record.RecordDCL;
 import CodeGen.Parts.St.condition.Switch;
 import CodeGen.Parts.St.loop.Loop;
@@ -16,6 +16,54 @@ import java.util.Set;
 
 @Data
 public class SymTabHandler {
+    public static void setInstance(SymTabHandler instance) {
+        SymTabHandler.instance = instance;
+    }
+
+   // public void setLastFunction(FunctionDCL lastFunction) {
+    //    LastFunction = lastFunction;
+   // }
+
+    public Loop getInnerLoop() {
+        return innerLoop;
+    }
+
+    public void setInnerLoop(Loop innerLoop) {
+        this.innerLoop = innerLoop;
+    }
+
+    public Switch getLastSwitch() {
+        return lastSwitch;
+    }
+
+    public void setLastSwitch(Switch lastSwitch) {
+        this.lastSwitch = lastSwitch;
+    }
+
+    public ArrayList<SymTab> getStackScopes() {
+        return stackScopes;
+    }
+
+    public void setStackScopes(ArrayList<SymTab> stackScopes) {
+        this.stackScopes = stackScopes;
+    }
+
+  //  public HashMap<String, ArrayList<FunctionDCL>> getFuncDcls() {
+ //       return funcDcls;
+   // }
+
+  //  public void setFuncDcls(HashMap<String, ArrayList<FunctionDCL>> funcDcls) {
+   ///     this.funcDcls = funcDcls;
+    //}
+
+    public HashMap<String, RecordDCL> getRecordDcls() {
+        return recordDcls;
+    }
+
+    public void setRecordDcls(HashMap<String, RecordDCL> recordDcls) {
+        this.recordDcls = recordDcls;
+    }
+
     private static SymTabHandler instance = new SymTabHandler();
 
     private SymTabHandler() {
@@ -29,11 +77,19 @@ public class SymTabHandler {
         return instance;
     }
 
-    private FunctionDcl LastFunction;
+    public FunctionDCL getLastFunction() {
+        return LastFunction;
+    }
+
+    public void setLastFunction(FunctionDCL lastFunction) {
+        LastFunction = lastFunction;
+    }
+
+    private FunctionDCL LastFunction;
     private Loop innerLoop;
     private Switch lastSwitch;
     private ArrayList<SymTab> stackScopes = new ArrayList<>();
-    private HashMap<String, ArrayList<FunctionDcl>> funcDcls = new HashMap<>();
+    private HashMap<String, ArrayList<FunctionDCL>> funcDcls = new HashMap<>();
     private HashMap<String, RecordDCL> recordDcls = new HashMap<>();
 
     public static int getSize(String name) {
@@ -161,11 +217,11 @@ public class SymTabHandler {
     }
 
     //To declare a function add it to funcDcls
-    public void addFunction(FunctionDcl funcDcl) {
+    public void addFunction(FunctionDCL funcDcl) {
         if (funcDcls.containsKey(funcDcl.getName())) {
             if (funcDcls.get(funcDcl.getName()).contains(funcDcl)) {
                 int index = funcDcls.get(funcDcl.getName()).indexOf(funcDcl);
-                FunctionDcl lastfunc = funcDcls.get(funcDcl.getName()).get(index);
+                FunctionDCL lastfunc = funcDcls.get(funcDcl.getName()).get(index);
                 if ((lastfunc.getBlock() != null && funcDcl.getBlock() != null) ||
                         (lastfunc.getBlock() == null && funcDcl.getBlock() == null))
                     throw new RuntimeException("the function is duplicate!!!");
@@ -174,16 +230,16 @@ public class SymTabHandler {
                 funcDcls.get(funcDcl.getName()).add(funcDcl);
             }
         } else {
-            ArrayList<FunctionDcl> funcDclList = new ArrayList<>();
+            ArrayList<FunctionDCL> funcDclList = new ArrayList<>();
             funcDclList.add(funcDcl);
             funcDcls.put(funcDcl.getName(), funcDclList);
         }
     }
 
-    public FunctionDcl getFunction(String name, ArrayList<Type> inputs) {
+    public FunctionDCL getFunction(String name, ArrayList<Type> inputs) {
         if (funcDcls.containsKey(name)) {
-            ArrayList<FunctionDcl> funcDclMapper = funcDcls.get(name);
-            for (FunctionDcl f : funcDclMapper) {
+            ArrayList<FunctionDCL> funcDclMapper = funcDcls.get(name);
+            for (FunctionDCL f : funcDclMapper) {
                 if (f.checkIfEqual(name, inputs)) {
                     return f;
                 }

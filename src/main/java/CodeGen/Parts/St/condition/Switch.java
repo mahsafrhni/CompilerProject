@@ -16,6 +16,54 @@ import static org.objectweb.asm.Opcodes.GOTO;
 
 @Data
 public class Switch extends Statement {
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
+
+    public ArrayList<Case> getCases() {
+        return cases;
+    }
+
+    public void setCases(ArrayList<Case> cases) {
+        this.cases = cases;
+    }
+
+    public Block getDefaultBlock() {
+        return defaultBlock;
+    }
+
+    public void setDefaultBlock(Block defaultBlock) {
+        this.defaultBlock = defaultBlock;
+    }
+
+    public Label getDefaultLabel() {
+        return defaultLabel;
+    }
+
+    public void setDefaultLabel(Label defaultLabel) {
+        this.defaultLabel = defaultLabel;
+    }
+
+    public Label getLookUpTable() {
+        return lookUpTable;
+    }
+
+    public void setLookUpTable(Label lookUpTable) {
+        this.lookUpTable = lookUpTable;
+    }
+
+    public Label getEnd() {
+        return end;
+    }
+
+    public void setEnd(Label end) {
+        this.end = end;
+    }
+
     private Expression expression;
     private ArrayList<Case> cases;
     private Block defaultBlock;

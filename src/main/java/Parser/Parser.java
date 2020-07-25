@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class Parser {
     public static String Separator = ",";
     private Lex lex;
-    private CodeGen codeGen;
+    private CodeGenerator codeGen;
     private boolean debug;
     private String[] symbols;
     private TableCell[][] pt; //parse table
@@ -22,7 +22,7 @@ public class Parser {
     // this(lex, codeGen, nptTablePath);
     // this.debug = debug;
     // }
-    public Parser(Lex lex, CodeGen codeGen, String nptTablePath) {
+    public Parser(Lex lex, CodeGenerator codeGen, String nptTablePath) {
         this.lex = lex;
         this.codeGen = codeGen;
         this.rec_state = new ArrayList<>();
