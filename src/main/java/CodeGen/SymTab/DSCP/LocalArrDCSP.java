@@ -8,20 +8,12 @@ import java.util.List;
 
 @Data
 public class LocalArrDCSP extends LocalDCSP {
-    public List<Expression> getDimList() {
-        return dimList;
-    }
-
     public void setDimList(List<Expression> dimList) {
         this.dimList = dimList;
     }
 
     public int getDimNum() {
         return dimNum;
-    }
-
-    public void setDimNum(int dimNum) {
-        this.dimNum = dimNum;
     }
 
     protected List<Expression> dimList;

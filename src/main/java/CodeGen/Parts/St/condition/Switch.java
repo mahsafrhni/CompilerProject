@@ -24,36 +24,8 @@ public class Switch extends Statement {
         this.expression = expression;
     }
 
-    public ArrayList<Case> getCases() {
-        return cases;
-    }
-
-    public void setCases(ArrayList<Case> cases) {
-        this.cases = cases;
-    }
-
-    public Block getDefaultBlock() {
-        return defaultBlock;
-    }
-
     public void setDefaultBlock(Block defaultBlock) {
         this.defaultBlock = defaultBlock;
-    }
-
-    public Label getDefaultLabel() {
-        return defaultLabel;
-    }
-
-    public void setDefaultLabel(Label defaultLabel) {
-        this.defaultLabel = defaultLabel;
-    }
-
-    public Label getLookUpTable() {
-        return lookUpTable;
-    }
-
-    public void setLookUpTable(Label lookUpTable) {
-        this.lookUpTable = lookUpTable;
     }
 
     public Label getEnd() {

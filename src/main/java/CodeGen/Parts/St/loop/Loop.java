@@ -17,10 +17,6 @@ public abstract class Loop extends Statement {
         return startLoop;
     }
 
-    public void setStartLoop(Label startLoop) {
-        this.startLoop = startLoop;
-    }
-
     public Label getEnd() {
         return end;
     }

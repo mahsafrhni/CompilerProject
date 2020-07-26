@@ -24,14 +24,6 @@ public abstract class VarDCL implements Op, InitExp, Dec {
         this.type = type;
     }
 
-    public boolean isGlobal() {
-        return global;
-    }
-
-    public void setGlobal(boolean global) {
-        this.global = global;
-    }
-
     protected String name;
     protected Type type = null;
     protected boolean global = true;

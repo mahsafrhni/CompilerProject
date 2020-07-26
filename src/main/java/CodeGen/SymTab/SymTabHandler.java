@@ -16,9 +16,6 @@ import java.util.Set;
 
 @Data
 public class SymTabHandler {
-    public static void setInstance(SymTabHandler instance) {
-        SymTabHandler.instance = instance;
-    }
 
    // public void setLastFunction(FunctionDCL lastFunction) {
     //    LastFunction = lastFunction;
@@ -44,9 +41,7 @@ public class SymTabHandler {
         return stackScopes;
     }
 
-    public void setStackScopes(ArrayList<SymTab> stackScopes) {
-        this.stackScopes = stackScopes;
-    }
+
 
   //  public HashMap<String, ArrayList<FunctionDCL>> getFuncDcls() {
  //       return funcDcls;
@@ -55,14 +50,6 @@ public class SymTabHandler {
   //  public void setFuncDcls(HashMap<String, ArrayList<FunctionDCL>> funcDcls) {
    ///     this.funcDcls = funcDcls;
     //}
-
-    public HashMap<String, RecordDCL> getRecordDcls() {
-        return recordDcls;
-    }
-
-    public void setRecordDcls(HashMap<String, RecordDCL> recordDcls) {
-        this.recordDcls = recordDcls;
-    }
 
     private static SymTabHandler instance = new SymTabHandler();
 

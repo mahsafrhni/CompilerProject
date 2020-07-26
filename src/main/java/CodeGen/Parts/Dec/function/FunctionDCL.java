@@ -49,25 +49,11 @@ public class FunctionDCL implements Dec {
         return parameters;
     }
 
-    public void setParameters(List<ParamPair> parameters) {
-        this.parameters = parameters;
-    }
-
-    public List<Type> getParamTypes() {
-        return paramTypes;
-    }
-
-    public void setParamTypes(List<Type> paramTypes) {
-        this.paramTypes = paramTypes;
-    }
 
     public String getSignature() {
         return signature;
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
 
     public Block getBlock() {
         return block;
@@ -81,9 +67,6 @@ public class FunctionDCL implements Dec {
         return returns;
     }
 
-    public void setReturns(List<ReturnFunc> returns) {
-        this.returns = returns;
-    }
 
     private Block block;
     private List<ReturnFunc> returns = new ArrayList<>();

@@ -29,36 +29,8 @@ public class If extends Statement {
         this.expression = expression;
     }
 
-    public Block getIfBlock() {
-        return ifBlock;
-    }
-
-    public void setIfBlock(Block ifBlock) {
-        this.ifBlock = ifBlock;
-    }
-
-    public Block getElseBlock() {
-        return elseBlock;
-    }
-
     public void setElseBlock(Block elseBlock) {
         this.elseBlock = elseBlock;
-    }
-
-    public Label getStartElse() {
-        return startElse;
-    }
-
-    public void setStartElse(Label startElse) {
-        this.startElse = startElse;
-    }
-
-    public Label getEndElse() {
-        return endElse;
-    }
-
-    public void setEndElse(Label endElse) {
-        this.endElse = endElse;
     }
 
     private Block elseBlock;
