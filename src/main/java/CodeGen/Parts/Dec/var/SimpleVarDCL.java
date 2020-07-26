@@ -11,6 +11,12 @@ import lombok.Data;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+
+import static jdk.internal.org.objectweb.asm.Opcodes.ISTORE;
+import static jdk.internal.org.objectweb.asm.Opcodes.PUTSTATIC;
+import static org.objectweb.asm.Opcodes.ACC_STATIC;
+import static org.objectweb.asm.Opcodes.ACC_FINAL;
+
 @Data
 public class SimpleVarDCL extends VarDCL {
     private boolean constant;

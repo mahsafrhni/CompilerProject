@@ -1,63 +1,100 @@
 package Parser;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Parser {
-    public static String Separator = ",";
-    private Lex lex;
-    private CodeGenerator codeGen;
-    private boolean debug;
-    private String[] symbols;
-    private TableCell[][] pt; //parse table
-    private int start; //start node
-    private Deque<Integer> ps = new ArrayDeque<>(); //parse stack
-    private List<String> rec_state; //recovery state
+enum Action {
+    ERROR, SHIFT, GOTO, PUSH_GOTO, REDUCE, ACCEPT
+}
 
-    //  public Parser(Lex lex, CodeGen codeGen, String nptTablePath, boolean debug) {
-    // this(lex, codeGen, nptTablePath);
-    // this.debug = debug;
-    // }
-    public Parser(Lex lex, CodeGenerator codeGen, String nptTablePath) {
-        this.lex = lex;
-        this.codeGen = codeGen;
-        this.rec_state = new ArrayList<>();
-        if (!Files.exists(Paths.get(nptTablePath))) {
-            throw new RuntimeException("Parser table not found: " + nptTablePath);
+class LLCell {
+    private Action action;
+    private int target;
+    private List<String> functions;
+
+    public LLCell(Action action, int target, List<String> functions) {
+        this.action = action;
+        this.target = target;
+        this.functions = functions;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public int getTarget() {
+        return target;
+    }
+
+    public List<String> getFunction() {
+        return functions;
+    }
+}
+
+
+public class Parser {
+    public static String TABLE_DELIMITER = ",";
+
+    private Lexical lexical;
+    private CodeGenerator codeGenerator;
+    private boolean debugMode;
+
+    private String[] symbols;
+    private LLCell[][] parseTable;
+    private int startNode;
+    private Deque<Integer> parseStack = new ArrayDeque<>();
+
+    private List<String> recoveryState;
+
+    public Parser(Lexical lexical, CodeGenerator codeGenerator, String nptPath, boolean debugMode) {
+        this(lexical, codeGenerator, nptPath);
+        this.debugMode = debugMode;
+    }
+
+    public Parser(Lexical lexical, CodeGenerator codeGenerator, String nptPath) {
+        this.lexical = lexical;
+        this.codeGenerator = codeGenerator;
+        this.recoveryState = new ArrayList<>();
+
+        if (!Files.exists(Paths.get(nptPath))) {
+            throw new RuntimeException("Parser table not found: " + nptPath);
         }
+
         try {
-            Scanner input = new Scanner(new FileInputStream(nptTablePath));
-            String[] Arr = input.nextLine().trim().split(" ");
-            int row = Integer.parseInt(Arr[0]);  //row size
-            int column = Integer.parseInt(Arr[1]);  //column size
-            start = Integer.parseInt(input.nextLine());
-            symbols = input.nextLine().trim().split(Separator);
-            pt = new TableCell[row][column];
-            for (int i = 0; i < row; i++) {
-                Arr = input.nextLine().trim().split(Separator);
-                if (Arr.length != column) {
+            Scanner in = new Scanner(new FileInputStream(nptPath));
+            String[] tmpArr = in.nextLine().trim().split(" ");
+            int rowSize = Integer.parseInt(tmpArr[0]);
+            int colSize = Integer.parseInt(tmpArr[1]);
+            startNode = Integer.parseInt(in.nextLine());
+            symbols = in.nextLine().trim().split(TABLE_DELIMITER);
+
+            parseTable = new LLCell[rowSize][colSize];
+            for (int i = 0; i < rowSize; i++) {
+                tmpArr = in.nextLine().trim().split(TABLE_DELIMITER);
+                if (tmpArr.length != colSize) {
                     throw new RuntimeException("Invalid .npt file. File contains rows with length" +
                             " bigger than column size.");
                 }
-                for (int j = 0; j < column; j++) {
-                    String[] cells = Arr[j].split(" ");  //cell parts
-                    if (cells.length != 3) {
+
+                for (int j = 0; j < colSize; j++) {
+                    String[] cellParts = tmpArr[j].split(" ");
+                    if (cellParts.length != 3) {
                         throw new RuntimeException("Invalid .npt file. File contains cells with 3 values.");
                     }
-                    Action act = Action.values()[Integer.parseInt(cells[0])];
-                    int target = Integer.parseInt(cells[1]);
+                    Action action = Action.values()[Integer.parseInt(cellParts[0])];
+                    int target = Integer.parseInt(cellParts[1]);
                     List<String> allFunctions;
-                    if (cells[2].equals("NoSem")) {
+                    if (cellParts[2].equals("NoSem")) {
                         allFunctions = new ArrayList<>();
                     } else {
-                        allFunctions = Arrays.stream(cells[2].substring(1).split("[;]"))
+                        allFunctions = Arrays.stream(cellParts[2].substring(1).split("[;]"))
                                 .filter(s -> !s.isEmpty()).collect(Collectors.toList());
                     }
-                    pt[i][j] = new TableCell(act, target, allFunctions);
+                    parseTable[i][j] = new LLCell(action, target, allFunctions);
                 }
             }
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
@@ -68,50 +105,50 @@ public class Parser {
     }
 
     public void parse() {
-        int T_ID = TokenId(); //next token ID
-        int Node = start;  //current node
+        int tokenID = nextTokenID();
+        int currentNode = startNode;
         boolean accepted = false;
         while (!accepted) {
-            String tokenText = symbols[T_ID];
-            TableCell cell = pt[Node][T_ID];
-            if (debug) {
-                System.out.println("Current token: text='" + symbols[T_ID] + "' id=" + T_ID);
-                System.out.println("Current node: " + Node);
+            String tokenText = symbols[tokenID];
+            LLCell cell = parseTable[currentNode][tokenID];
+            if (debugMode) {
+                System.out.println("Current token: text='" + symbols[tokenID] + "' id=" + tokenID);
+                System.out.println("Current node: " + currentNode);
                 System.out.println("Current cell of parser table: " +
-                        "target-node=" + cell.getGoal() +
-                        " action=" + cell.getAct() +
+                        "target-node=" + cell.getTarget() +
+                        " action=" + cell.getAction() +
                         " function=" + cell.getFunction());
                 System.out.println(String.join("", Collections.nCopies(50, "-")));
             }
-            switch (cell.getAct()) {
+            switch (cell.getAction()) {
                 case ERROR:
-                    updateState(Node, tokenText);
-                    Error("Unable to parse input");
+                    updateRecoveryState(currentNode, tokenText);
+                    generateError("Unable to parse input");
                 case SHIFT:
-                    useFuncs(cell.getFunction());
-                    T_ID = TokenId();
-                    Node = cell.getGoal();
-                    rec_state.clear();
+                    doSemantics(cell.getFunction());
+                    tokenID = nextTokenID();
+                    currentNode = cell.getTarget();
+                    recoveryState.clear();
                     break;
                 case GOTO:
-                    updateState(Node, tokenText);
-                    useFuncs(cell.getFunction());
-                    Node = cell.getGoal();
+                    updateRecoveryState(currentNode, tokenText);
+                    doSemantics(cell.getFunction());
+                    currentNode = cell.getTarget();
                     break;
                 case PUSH_GOTO:
-                    updateState(Node, tokenText);
-                    ps.push(Node);  //push to parse stack
-                    Node = cell.getGoal();
+                    updateRecoveryState(currentNode, tokenText);
+                    parseStack.push(currentNode);
+                    currentNode = cell.getTarget();
                     break;
                 case REDUCE:
-                    if (ps.size() == 0) {
-                        Error("Unable to Reduce: token=" + tokenText + " node=" + Node);
+                    if (parseStack.size() == 0) {
+                        generateError("Unable to Reduce: token=" + tokenText + " node=" + currentNode);
                     }
-                    updateState(Node, tokenText);
-                    int gToken = cell.getGoal();   //graph token
-                    int lastNode = ps.pop();  //pop from parse stack ->pre node
-                    useFuncs(pt[lastNode][gToken].getFunction());
-                    Node = pt[lastNode][gToken].getGoal();
+                    updateRecoveryState(currentNode, tokenText);
+                    int graphToken = cell.getTarget();
+                    int preNode = parseStack.pop();
+                    doSemantics(parseTable[preNode][graphToken].getFunction());
+                    currentNode = parseTable[preNode][graphToken].getTarget();
                     break;
                 case ACCEPT:
                     accepted = true;
@@ -120,8 +157,28 @@ public class Parser {
         }
     }
 
-    private int TokenId() {  //next token id
-        String token = lex.nextToken();
+    private void generateError(String message) {
+        System.out.flush();
+        System.out.println("Error happened while parsing ...");
+        for (String state : recoveryState) {
+            System.out.println(state);
+        }
+        throw new RuntimeException(message);
+    }
+
+    private void updateRecoveryState(int currentNode, String token) {
+        List<String> availableTokens = new ArrayList<>();
+        LLCell[] cellTokens = parseTable[currentNode];
+        for (int i = 0; i < cellTokens.length; i++) {
+            if (cellTokens[i].getAction() != Action.ERROR) {
+                availableTokens.add(symbols[i]);
+            }
+        }
+        recoveryState.add("At node " + currentNode + ": current token is " + token + " but except: " + availableTokens);
+    }
+
+    private int nextTokenID() {
+        String token = lexical.nextToken();
         for (int i = 0; i < symbols.length; i++) {
             if (symbols[i].equals(token)) {
                 return i;
@@ -130,63 +187,15 @@ public class Parser {
         throw new RuntimeException("Undefined token: " + token);
     }
 
-    private void Error(String message) { //generate error
-        System.out.flush();
-        System.out.println("Error happened while parsing ...");
-        for (String state : rec_state) {
-            System.out.println(state);
-        }
-        throw new RuntimeException(message);
-    }
-
-    private void updateState(int Node, String token) { //update recovery state
-        List<String> availableTokens = new ArrayList<>();
-        TableCell[] Tokens = pt[Node];  //tokens of a cell
-        for (int i = 0; i < Tokens.length; i++) {
-            if (Tokens[i].getAct() != Action.ERROR) {
-                availableTokens.add(symbols[i]);
-            }
-        }
-        rec_state.add("At node " + Node + ": current token is " + token + " but except: " + availableTokens);
-    }
-
-    private void useFuncs(List<String> functions) {  //do semantics
+    private void doSemantics(List<String> functions) {
         if (functions.isEmpty()) {
             return;
         }
-        if (debug) {
+        if (debugMode) {
             System.out.println("Execute semantic codes: " + functions);
         }
         for (String function : functions) {
-            codeGen.doSemantic(function);
+            codeGenerator.doSemantic(function);
         }
     }
-}
-
-class TableCell {
-    private Action act;
-    private int goal;
-    private List<String> function;
-
-    public TableCell(Action act, int goal, List<String> function) {
-        this.act = act;
-        this.goal = goal;
-        this.function = function;
-    }
-
-    public Action getAct() {
-        return act;
-    }
-
-    public int getGoal() {
-        return goal;
-    }
-
-    public List<String> getFunction() {
-        return function;
-    }
-}
-
-enum Action {
-    ERROR, SHIFT, GOTO, PUSH_GOTO, REDUCE, ACCEPT
 }

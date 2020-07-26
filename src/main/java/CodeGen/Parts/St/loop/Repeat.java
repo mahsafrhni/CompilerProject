@@ -4,6 +4,7 @@ import CodeGen.Parts.Block.Block;
 import CodeGen.Parts.Expression.Const.IntegerConst;
 import CodeGen.Parts.Expression.Expression;
 import CodeGen.Parts.Expression.binary.condition.NotEqual;
+import CodeGen.SymTab.Scope;
 import CodeGen.SymTab.SymTabHandler;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;

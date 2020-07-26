@@ -17,7 +17,7 @@ public class Main {
 
     private static void parseInput(Scanner lexicalAnalyzer, CodeGenerator codeGenerator) {
         Parser parser = new Parser(lexicalAnalyzer,
-                codeGenerator, "src/main/java/ir/ac/sbu/syntax/table.npt");
+                codeGenerator, "src/main/java/Parser/table.npt");
         Node result;
         try {
             // Parse given file

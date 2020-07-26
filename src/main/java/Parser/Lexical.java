@@ -2,7 +2,7 @@ package Parser;
 
 import Lexical.MySymbol;
 
-public interface Lex {
+public interface Lexical {
     MySymbol currentToken();
     String nextToken();
 }

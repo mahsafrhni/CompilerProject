@@ -1,8 +1,7 @@
 package Lexical;
 
 import Lexical.MySymbol;
-import Parser.Lex;
-
+import Parser.Lexical;
 import java.io.IOException;
 import java.util.HashSet;
 /*user codes */
@@ -12,7 +11,7 @@ import java.util.HashSet;
  * <a href="http://www.jflex.de/">JFlex</a> 1.6.1
  * from the specification file <tt>/home/yalda/projects/Compiler/SampleCompiler/src/main/java/ir/ac/sbu/lexical/scanner.jflex</tt>
  */
-public class Scanner implements Lex {
+public class Scanner implements Lexical {
 
   private MySymbol currentSymbol = null;
 

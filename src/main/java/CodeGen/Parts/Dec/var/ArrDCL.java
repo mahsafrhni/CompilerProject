@@ -19,24 +19,13 @@ import static org.objectweb.asm.Opcodes.ASTORE;
 
 @Data
 public class ArrDCL extends VarDCL {
-    public List<Expression> getDimensions() {
-        return dimensions;
-    }
-
-    public static void setDimensions(List<Expression> dimensions) {
+    public void setDimensions(List<Expression> dimensions) {
         this.dimensions = dimensions;
-    }
-
-    public int getDimNum() {
-        return dimNum;
-    }
-
-    public void setDimNum(int dimNum) {
-        this.dimNum = dimNum;
     }
 
     private List<Expression> dimensions;
     private int dimNum;
+
     public ArrDCL(String name, Type type, boolean global, int dimNum) {
         this.name = name;
         this.type = type;
@@ -44,6 +33,7 @@ public class ArrDCL extends VarDCL {
         dimensions = new ArrayList<>(dimNum);
         this.dimNum = dimNum;
     }
+
     public ArrDCL(String name, String stringType, boolean global, Integer dimNum, Type type, List<Expression> dimensions) {
         this.name = name;
         if (!stringType.equals("auto")) {
@@ -60,20 +50,20 @@ public class ArrDCL extends VarDCL {
         this.global = global;
         this.dimensions = dimensions;
     }
+
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
-        if (global){
+        if (global) {
             executeGlobalExp(cw, mv);
             String repeatedArray = new String(new char[dimensions.size()]).replace("\0", "[");
             Type arrayType = Type.getType(repeatedArray + type.getDescriptor());
             cw.visitField(ACC_STATIC, name, arrayType.getDescriptor(), null, null).visitEnd();
-        }
-        else {
+        } else {
             for (Expression dim :
-                    dimensions ) {
+                    dimensions) {
                 dim.codegen(mv, cw);
             }
-            if(dimensions.size() == 0){
+            if (dimensions.size() == 0) {
                 new IntegerConst(1000).codegen(mv, cw);
             }
             if (dimNum == 1) {
@@ -81,7 +71,7 @@ public class ArrDCL extends VarDCL {
                     mv.visitTypeInsn(ANEWARRAY, getType().getElementType().getInternalName());
                 else
                     mv.visitIntInsn(NEWARRAY, SymTabHandler.getTType(getType().getElementType()));
-            } else{
+            } else {
                 String t = "";
                 for (int i = 0; i < dimNum; i++) {
                     t += "[";
@@ -92,13 +82,15 @@ public class ArrDCL extends VarDCL {
             mv.visitVarInsn(ASTORE, SymTabHandler.getInstance().getIndex());
         }
     }
-    private void executeGlobalExp(ClassWriter cw,MethodVisitor mv){
+
+    private void executeGlobalExp(ClassWriter cw, MethodVisitor mv) {
         for (Expression dim :
                 dimensions) {
-            dim.codegen(mv,cw);
+            dim.codegen(mv, cw);
         }
     }
-    public static void declare(String name,Type type,List<Expression> dimensions,int dimNum,boolean global) {
+
+    public static void declare(String name, Type type, List<Expression> dimensions, int dimNum, boolean global) {
         DCSP dscp;
         if (!global)
             dscp = new LocalArrDCSP(type, true, SymTabHandler.getInstance().getIndex(), dimensions, dimNum);

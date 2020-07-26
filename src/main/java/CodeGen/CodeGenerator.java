@@ -32,7 +32,7 @@ import CodeGen.Parts.St.loop.StepExp;
 import CodeGen.SymTab.DSCP.*;
 import CodeGen.SymTab.Scope;
 import CodeGen.SymTab.SymTabHandler;
-import Parser.Lex;
+import Parser.Lexical;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -41,10 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeGenerator implements Parser.CodeGenerator {
-    private Lex lexical;
+    private Lexical lexical;
     private SS semanticStack;
 
-    public CodeGenerator(Lex lexical) {
+    public CodeGenerator(Lexical lexical) {
         this.lexical = lexical;
         semanticStack = new SS();
         semanticStack.push(GlobalBlock.getInstance());
@@ -229,7 +229,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                     arrDcl = new ArrDCL(name, type, false, expressionList.size());
                     arrDcl.declare(name, type, expressionList, expressionList.size(), false);
                 }
-                ArrDCL.setDimensions(expressionList);
+                arrDcl.setDimensions(expressionList);
                 semanticStack.push(arrDcl);
                 break;
             }
