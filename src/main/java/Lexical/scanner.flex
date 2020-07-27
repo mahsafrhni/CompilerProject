@@ -57,6 +57,8 @@ SingleCommentCharacter = [^\n]
 
 /* multiple comment characters can be any thing except "#/" */
 MultilpleCommentCharacter = [^\t\r\n#]
+AcooladBaste=[}]
+AcooladBaz=[{]
 
 /* define states */
 %state CHARACTER
@@ -70,8 +72,10 @@ MultilpleCommentCharacter = [^\t\r\n#]
 
 <YYINITIAL> {
 
+
     /* SYMBOLS */
     "=="    { return symbol("==");}
+
     "!="    { return symbol("!=");}
     "<="    { return symbol("<=");}
     "<"     { return symbol("<");}
@@ -94,8 +98,9 @@ MultilpleCommentCharacter = [^\t\r\n#]
     "/="    { return symbol("/=");}
     "/"     { return symbol("/");}
     "%"     { return symbol("%");}
-    "begin" { return symbol("begin");}
-    "end"   { return symbol("end");}
+    "begin"    { return symbol("begin");}
+    "end"     { return symbol("end");}
+
     "("     { return symbol("(");}
     ")"     { return symbol(")");}
     "."     { return symbol(".");}
@@ -149,6 +154,7 @@ MultilpleCommentCharacter = [^\t\r\n#]
     "new"         { return symbol("new");}
     "println"     { return symbol("println");}
     "input"       { return symbol("input");}
+
     "true"        { return symbol("true", Boolean.valueOf(yytext()));}
     "false"       { return symbol("false", Boolean.valueOf(yytext()));}
     /* VARIABLES */
@@ -169,6 +175,8 @@ MultilpleCommentCharacter = [^\t\r\n#]
     {ScientificLiteral} {return symbol("real_const", yytext());}
     /* WHITESPACE */
     {WhiteSpace}        {/* skip */}
+    {AcooladBaste}      {return symbol("}");}
+    {AcooladBaz}        {return symbol("{");}
 }
 
 <CHARACTER>{
@@ -201,6 +209,7 @@ MultilpleCommentCharacter = [^\t\r\n#]
                                         "\" at line "+yyline+", column "+yycolumn); }
 <<EOF>>    {return symbol("$");}
 
+
 /*After create Scanner file you must change somewheres :
     **set the package name
     **import HashSet<>
@@ -216,7 +225,6 @@ MultilpleCommentCharacter = [^\t\r\n#]
                 throw new RuntimeException("Unable to get next token", e);
               }
             }
-
             @Override
             public MySymbol currentToken() {
               return currentSymbol;
