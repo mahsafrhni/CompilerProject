@@ -1,0 +1,12 @@
+
+function void start()
+{
+double k = input(double);
+int i;
+for(i = 0; i<10;i++)
+{
+k += 1;
+}
+return;
+}
+

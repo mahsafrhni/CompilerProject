@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="jbr">
+    <ANNOTATIONS>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr" />
+    </SOURCES>
+    <jarDirectory url="file://$APPLICATION_HOME_DIR$/jbr" recursive="false" />
+    <jarDirectory url="file://$APPLICATION_HOME_DIR$/jbr" recursive="false" type="SOURCES" />
+  </library>
+</component>
