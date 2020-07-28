@@ -1,12 +1,52 @@
 
-function void start()
-{
-double k = input(double);
-int i;
-for(i = 0; i<10;i++)
-{
-k += 1;
-}
-return;
-}
+function int main() {
+    int number1 = 243 + 343 * 23;
+    long number2 = 34 + number1;
+    char local_character = 'a', c3 = '\t';
+    string str = "ali alavi";
+    int array[10];
+    int a = (int) number2;
+    double darray[10 + 1];
 
+
+    repeat
+    {
+        number1 = 2;
+        number1 = 2 * 8
+        and
+        3;
+    }
+    until(number1 < 12);
+
+
+    for (a = -1; a < 100; a += 10) {
+        int var = a;
+        print(a);
+        print(var * 3);
+
+    }
+
+
+    switch (a) of :
+begin
+            case 10: {
+                if (a == 5) {
+                    a = 3;
+                } else {
+                    int a = 10;
+                }
+            }
+            case 1: {
+                int c = true;
+            }
+            case 5:
+
+            case 2: {
+            }
+            default: {
+                double d = 3e4;
+                print(d);
+            }
+        end
+
+}
