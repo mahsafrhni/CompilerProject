@@ -2,11 +2,11 @@
 function int main() {
     int number1 = 243 + 343 * 23;
     long number2 = 34 + number1;
-    char local_character = 'a', c3 = '\t';
+    char local_character = 'a';
     string str = "ali alavi";
-    int array[10];
+    int[] array=new int[10];
     int a = (int) number2;
-    double darray[10 + 1];
+    double[] darray=new double[10 + 1];
 
 
     repeat
@@ -21,25 +21,25 @@ function int main() {
 
     for (a = -1; a < 100; a += 10) {
         int var = a;
-        print(a);
-        print(var * 3);
+        println(a);
+        println(var * 3);
 
     }
 
 
-    switch (a) of :
+    switch (a) of
 begin
             case 10: {
                 if (a == 5) {
                     a = 3;
                 } else {
-                    int a = 10;
+                     a = 10;
                 }
             }
             case 1: {
                 int c = true;
             }
-            case 5:
+            case 5:{}
 
             case 2: {
             }
