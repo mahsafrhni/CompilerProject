@@ -1,5 +1,4 @@
-
-function int main() {
+function void start() {
     int number1 = 243 + 343 * 23;
     long number2 = 34 + number1;
     char local_character = 'a';
@@ -44,9 +43,9 @@ begin
             case 2: {
             }
             default: {
-                double d = 3e4;
-                print(d);
+
+
             }
         end
-
+        return;
 }

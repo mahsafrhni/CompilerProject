@@ -43,6 +43,10 @@ import java.util.List;
 public class CodeGenerator implements Parser.CodeGenerator {
     private Lexical lexical;
     private SS semanticStack;
+    Object temp = null;
+    boolean flag = true;
+    int counter = 1;
+
 
     public CodeGenerator(Lexical lexical) {
         this.lexical = lexical;
@@ -55,10 +59,16 @@ public class CodeGenerator implements Parser.CodeGenerator {
     }
 
     public void doSemantic(String sem) {
+
         switch (sem) {
             /* --------------------- global --------------------- */
             case "push": {
                 semanticStack.push(lexical.currentToken().getValue());
+
+                    temp = lexical.currentToken().getValue();
+                    System.out.println(temp + " salam salam");
+                    //flag = true;
+
                 break;
             }
             case "pop": {
@@ -127,16 +137,28 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new NOP(varName));
                 break;
             }
-            case "pushBlock": {  //begin
+            //begin
+            case "pushBlock": {
                 semanticStack.push(new Block(new ArrayList<>()));
                 break;
             }
             case "addBlock": { //fill function's block
-                Op operation = (Op) semanticStack.pop();
-                Block block = (Block) semanticStack.pop();
-                block.addOperation(operation);
-                semanticStack.push(block);
-                break;
+                if (counter ==1) {
+                    Op operation = (Op) semanticStack.pop();
+                    Block block = (Block) semanticStack.pop();
+                    block.addOperation(operation);
+                    semanticStack.push(block);
+                    break;
+
+                }
+                if(counter==2){
+                    Op operation = (Op) semanticStack.pop();
+                    Op operation2 = (Op) semanticStack.pop();
+                    Block block = (Block) semanticStack.pop();
+                    block.addOperation(operation);
+                    semanticStack.push(block);
+                    break;
+                }
             }
             case "addGlobalBlock": {
                 Dec declaration = (Dec) semanticStack.pop();
@@ -683,6 +705,14 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 String baseType = (String) semanticStack.pop();
                 semanticStack.push(new SizeOf(baseType));
                 break;
+            }
+           case "myPush": {
+              //  if (flag = true) {
+                    semanticStack.push(temp);
+                    counter++;
+                  //  flag = false;
+                    break;
+               // }
             }
             default:
                 throw new RuntimeException("Illegal semantic function: " + sem);
