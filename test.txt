@@ -1,4 +1,9 @@
 function void start(){
-long number1=223L;
+
 return;
+}
+
+function int salam(int a){
+int b=a+1;
+return b;
 }

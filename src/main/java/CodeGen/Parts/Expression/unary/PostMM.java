@@ -18,7 +18,7 @@ public class PostMM extends UnaryExpression implements InitExp, StepExp, Op { //
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         type = operand.getType();
-        if (!(operand instanceof Var) || (type != Type.INT_TYPE && type != Type.DOUBLE_TYPE && type != Type.LONG_TYPE && type != Type.FLOAT_TYPE))
+        if (!(operand instanceof Var) || (type != Type.INT_TYPE && type != Type.LONG_TYPE ))
             throw new RuntimeException("the operand is wrong");
         Var var = (Var)operand;
         checkConst(var);
