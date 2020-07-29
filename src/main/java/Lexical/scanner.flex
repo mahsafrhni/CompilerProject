@@ -25,28 +25,29 @@ private MySymbol symbol(String token, Object val) {
 %}
 
 /* VARIABLES */
-id = {letter}({letter}|{digit}|"_")*
+id = {letter}({letter}|{Digit}|"_")*
 letter = [A-Za-z]
 
 /* INTEGER NUMBERS */
-IntLiteral  = ("-")?{Dec_numbers}
-Dec_numbers = (0 | {digitWithoutZero}{digit}*)("l" | "L")?
-HexLiteral  = ("-")?{Hex_numbers}
-Hex_numbers = 0x[\da-fA-F]{1, 4}
+ESign = (\-)
+Sign = (\+|\-)?
+NoSignDecimal = [0-9]+
+DecimalInt = {ESign}{NoSignDecimal}
 
-/* REAL NUMBERS */
-RealLiteral  = ("-")?{Float}
-Float    =  ({digit}*({digit} \. | \. {digit}){digit}*)("f" | "F")?
-ScientificLiteral = ("-")?{Scientific_notation}
-Scientific_notation  = ({Float} | {digit})+ ("e" | "E") ("+" | "-")? {digit}+
+DecimalLong = [0-9][L]
+HexaDecimal = {Sign}[0][xX][0-9a-fA-F]+
+Digit = [0-9]
+Num = {DoubleNumber}|{DecimalInt}|{NoSignDecimal}
+DoubleNumber = {Sign}(\.{Digit}+) | {Sign}({Digit}+\.) |{Sign}({Digit}+\.{Digit}+)
+FloatNumber = {Num}[fF]
 
-digit = [0-9]
-digitWithoutZero = [1-9]
+Ee = (e|E)
+ScientificNumber = {Num}{Ee}{Sign}{DecimalInt}
 
 /* WHITESPACE */
 LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
-
+InputCharacter = [^\r\n]
 /* String character can be any character except those listed */
 StringCharacter = [^\t\r\n\"\'\\]
 
@@ -113,6 +114,7 @@ AcooladBaz=[{]
     "++"    { return symbol("++");}
     "--"    { return symbol("--");}
     "-"     { return symbol("-");}
+
     /* CHARACTER */
     "'"     { yybegin(CHARACTER);string.setLength(0); string.append("'");}
     /* STRINGS */
@@ -169,14 +171,19 @@ AcooladBaz=[{]
                             }
                             return symbol("id",temp);}
     /* NUMBERS */
-    {IntLiteral}        {return symbol("int_const", Integer.valueOf(yytext()));}
-    {HexLiteral}        {return symbol("int_const", yytext());}
-    {RealLiteral}       {return symbol("real_const", Double.valueOf(yytext()));}
-    {ScientificLiteral} {return symbol("real_const", yytext());}
+   {NoSignDecimal} {return symbol("int_const", Integer.valueOf(yytext()));}
+      {DecimalInt} {return symbol("int_const", Integer.valueOf(yytext()));}
+   {DecimalLong}  {return symbol("int_const", yytext());}
+      {HexaDecimal}  {return symbol("int_const", yytext());}
+
+
+      {DoubleNumber} {return symbol("real_const", Double.valueOf(yytext()));}
+   {FloatNumber} {return symbol("real_const", Double.valueOf(yytext()));}
+       {ScientificNumber} {return symbol("real_const", yytext());}
     /* WHITESPACE */
     {WhiteSpace}        {/* skip */}
-    {AcooladBaste}      {return symbol("}");}
-    {AcooladBaz}        {return symbol("{");}
+    {AcooladBaste} {return symbol("}");}
+    {AcooladBaz}   {return symbol("{");}
 }
 
 <CHARACTER>{
@@ -204,6 +211,7 @@ AcooladBaz=[{]
     "	"                           {}
     {MultilpleCommentCharacter}+    {}
 }
+
 
 [^]        { throw new RuntimeException("Illegal character \""+yytext()+
                                         "\" at line "+yyline+", column "+yycolumn); }
