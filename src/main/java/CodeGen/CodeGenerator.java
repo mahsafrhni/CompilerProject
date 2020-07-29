@@ -66,7 +66,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(lexical.currentToken().getValue());
 
                     temp = lexical.currentToken().getValue();
-                    System.out.println(temp + " salam salam");
+                    //System.out.println(temp + " salam salam");
                     //flag = true;
 
                 break;
