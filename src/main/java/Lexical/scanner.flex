@@ -41,8 +41,8 @@ Num = {DoubleNumber}|{DecimalInt}|{NoSignDecimal}
 DoubleNumber = {Sign}(\.{Digit}+) | {Sign}({Digit}+\.) |{Sign}({Digit}+\.{Digit}+)
 FloatNumber = {Num}[fF]
 
-Ee = (e|E)
-ScientificNumber = {Num}{Ee}{Sign}{DecimalInt}
+//Ee = (e|E)
+ScientificNumber = {Num}[e]{Num}
 
 /* WHITESPACE */
 LineTerminator = \r|\n|\r\n
@@ -53,11 +53,9 @@ StringCharacter = [^\t\r\n\"\'\\]
 
 SpecialCharacter = \\ ([trn\"\'\\])
 
-/* single comment characters can be any character except newline and EOF */
-SingleCommentCharacter = [^\n]
-
-/* multiple comment characters can be any thing except "#/" */
-MultilpleCommentCharacter = [^\t\r\n#]
+CStyleComment = "/*"~"*/"
+OneLineComment = "//" {InputCharacter}* {LineTerminator}
+Comment = {CStyleComment}|{OneLineComment}
 AcooladBaste=[}]
 AcooladBaz=[{]
 
@@ -199,20 +197,8 @@ AcooladBaz=[{]
     {StringCharacter}+  {string.append(yytext());}
     {SpecialCharacter}+ {string.append(yytext());}
 }
+{Comment}  {yybegin(YYINITIAL);}
 
-<SINGLE_COMMENT>{
-    \n                              {yybegin(YYINITIAL);}
-    {SingleCommentCharacter}+       {}
-}
-
-<MULT_COMMENT>{
-    "#/"                            {yybegin(YYINITIAL);}
-    "#"                             {}
-    \n                              {}
-    \r\n                            {}
-    "	"                           {}
-    {MultilpleCommentCharacter}+    {}
-}
 
 
 [^]        { throw new RuntimeException("Illegal character \""+yytext()+
