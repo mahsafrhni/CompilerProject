@@ -1,5 +1,4 @@
 function void start(){
-long number1=234L;
-
+long number1=223L;
 return;
 }

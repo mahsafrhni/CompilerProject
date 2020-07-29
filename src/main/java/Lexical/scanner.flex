@@ -173,7 +173,9 @@ AcooladBaz=[{]
     /* NUMBERS */
    {NoSignDecimal} {return symbol("int_const", Integer.valueOf(yytext()));}
       {DecimalInt} {return symbol("int_const", Integer.valueOf(yytext()));}
-   {DecimalLong}  {return symbol("int_const", yytext());}
+   {DecimalLong}  {return symbol("int_const", Integer.parseInt(yytext().split("L",3)[0]));}
+
+
       {HexaDecimal}  {return symbol("int_const", yytext());}
 
 

@@ -15,7 +15,6 @@ public
 class Scanner implements Lexical {
   private MySymbol currentSymbol = null;
   /** This character denotes the end of file. */
-
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
 
@@ -117,13 +116,13 @@ class Scanner implements Lexical {
                   "\1\41\1\42\1\43\1\44\1\45\1\46\3\0\1\47"+
                   "\1\50\2\17\1\51\1\52\1\53\1\54\1\0\1\52"+
                   "\1\55\1\0\1\56\1\57\1\60\20\25\1\61\1\62"+
-                  "\4\25\1\63\1\64\10\25\1\65\1\37\2\0\1\55"+
-                  "\1\66\12\25\1\67\2\25\1\70\2\25\1\71\1\72"+
-                  "\1\25\1\73\1\74\13\25\2\0\1\75\1\76\2\25"+
-                  "\1\77\4\25\1\100\14\25\1\101\1\25\1\102\1\103"+
-                  "\1\104\1\105\3\25\1\106\2\25\1\107\5\25\1\110"+
-                  "\1\25\1\111\5\25\1\112\1\113\1\114\1\115\1\116"+
-                  "\1\25\1\117\1\120\1\25\1\121\1\122\1\123";
+                  "\4\25\1\63\1\64\10\25\1\65\1\37\2\0\1\66"+
+                  "\1\67\12\25\1\70\2\25\1\71\2\25\1\72\1\73"+
+                  "\1\25\1\74\1\75\13\25\2\0\1\76\1\77\2\25"+
+                  "\1\100\4\25\1\101\14\25\1\102\1\25\1\103\1\104"+
+                  "\1\105\1\106\3\25\1\107\2\25\1\110\5\25\1\111"+
+                  "\1\25\1\112\5\25\1\113\1\114\1\115\1\116\1\117"+
+                  "\1\25\1\120\1\121\1\25\1\122\1\123\1\124";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[219];
@@ -895,102 +894,102 @@ class Scanner implements Lexical {
                   "\" at line "+yyline+", column "+yycolumn);
           }
           // fall through
-          case 84: break;
+          case 85: break;
           case 2:
           { /* skip */
           }
           // fall through
-          case 85: break;
+          case 86: break;
           case 3:
           { yybegin(STRING); string.setLength(0); string.append("\"");
           }
           // fall through
-          case 86: break;
+          case 87: break;
           case 4:
           { return symbol("%");
           }
           // fall through
-          case 87: break;
+          case 88: break;
           case 5:
           { return symbol("&");
           }
           // fall through
-          case 88: break;
+          case 89: break;
           case 6:
           { yybegin(CHARACTER);string.setLength(0); string.append("'");
           }
           // fall through
-          case 89: break;
+          case 90: break;
           case 7:
           { return symbol("(");
           }
           // fall through
-          case 90: break;
+          case 91: break;
           case 8:
           { return symbol(")");
           }
           // fall through
-          case 91: break;
+          case 92: break;
           case 9:
           { return symbol("*");
           }
           // fall through
-          case 92: break;
+          case 93: break;
           case 10:
           { return symbol("+");
           }
           // fall through
-          case 93: break;
+          case 94: break;
           case 11:
           { return symbol("va");
           }
           // fall through
-          case 94: break;
+          case 95: break;
           case 12:
           { return symbol("-");
           }
           // fall through
-          case 95: break;
+          case 96: break;
           case 13:
           { return symbol(".");
           }
           // fall through
-          case 96: break;
+          case 97: break;
           case 14:
           { return symbol("/");
           }
           // fall through
-          case 97: break;
+          case 98: break;
           case 15:
           { return symbol("int_const", Integer.valueOf(yytext()));
           }
           // fall through
-          case 98: break;
+          case 99: break;
           case 16:
           { return symbol(":");
           }
           // fall through
-          case 99: break;
+          case 100: break;
           case 17:
           { return symbol(";");
           }
           // fall through
-          case 100: break;
+          case 101: break;
           case 18:
           { return symbol("<");
           }
           // fall through
-          case 101: break;
+          case 102: break;
           case 19:
           { return symbol("=");
           }
           // fall through
-          case 102: break;
+          case 103: break;
           case 20:
           { return symbol(">");
           }
           // fall through
-          case 103: break;
+          case 104: break;
           case 21:
           { String temp = yytext();
             if(records.contains(temp)){
@@ -1004,323 +1003,331 @@ class Scanner implements Lexical {
             return symbol("id",temp);
           }
           // fall through
-          case 104: break;
+          case 105: break;
           case 22:
           { return symbol("[");
           }
           // fall through
-          case 105: break;
+          case 106: break;
           case 23:
           { return symbol("]");
           }
           // fall through
-          case 106: break;
+          case 107: break;
           case 24:
           { return symbol("^");
           }
           // fall through
-          case 107: break;
+          case 108: break;
           case 25:
           { return symbol("{");
           }
           // fall through
-          case 108: break;
+          case 109: break;
           case 26:
           { return symbol("|");
           }
           // fall through
-          case 109: break;
+          case 110: break;
           case 27:
           { return symbol("}");
           }
           // fall through
-          case 110: break;
+          case 111: break;
           case 28:
           { return symbol("tilda");
           }
           // fall through
-          case 111: break;
+          case 112: break;
           case 29:
           { return symbol("char", yytext().charAt(0));
           }
           // fall through
-          case 112: break;
+          case 113: break;
           case 30:
           { yybegin(YYINITIAL);
           }
           // fall through
-          case 113: break;
+          case 114: break;
           case 31:
           { string.append(yytext());
           }
           // fall through
-          case 114: break;
+          case 115: break;
           case 32:
           { yybegin(YYINITIAL); string.append("\""); StringBuilder temp = string; string = new StringBuilder(); return symbol("string", temp.toString());
           }
           // fall through
-          case 115: break;
+          case 116: break;
           case 33:
           {
           }
           // fall through
-          case 116: break;
+          case 117: break;
           case 34:
           { return symbol("!=");
           }
           // fall through
-          case 117: break;
+          case 118: break;
           case 35:
           { yybegin(SINGLE_COMMENT); string.setLength(0); string.append("##");
           }
           // fall through
-          case 118: break;
+          case 119: break;
           case 36:
           { return symbol("%=");
           }
           // fall through
-          case 119: break;
+          case 120: break;
           case 37:
           { return symbol("*=");
           }
           // fall through
-          case 120: break;
+          case 121: break;
           case 38:
           { return symbol("++");
           }
           // fall through
-          case 121: break;
+          case 122: break;
           case 39:
           { return symbol("+=");
           }
           // fall through
-          case 122: break;
+          case 123: break;
           case 40:
           { return symbol("--");
           }
           // fall through
-          case 123: break;
+          case 124: break;
           case 41:
           { return symbol("-=");
           }
           // fall through
-          case 124: break;
+          case 125: break;
           case 42:
           { return symbol("real_const", Double.valueOf(yytext()));
           }
           // fall through
-          case 125: break;
+          case 126: break;
           case 43:
           { yybegin(MULT_COMMENT); string.setLength(0); string.append("/#");
           }
           // fall through
-          case 126: break;
+          case 127: break;
           case 44:
           { return symbol("/=");
           }
           // fall through
-          case 127: break;
+          case 128: break;
           case 45:
-          { return symbol("int_const", yytext());
+          { return symbol("int_const", Integer.parseInt(yytext().split("L",3)[0]));
           }
           // fall through
-          case 128: break;
+          case 129: break;
           case 46:
           { return symbol("<=");
           }
           // fall through
-          case 129: break;
+          case 130: break;
           case 47:
           { return symbol("==");
           }
           // fall through
-          case 130: break;
+          case 131: break;
           case 48:
           { return symbol(">=");
           }
           // fall through
-          case 131: break;
+          case 132: break;
           case 49:
           { return symbol("if");
           }
           // fall through
-          case 132: break;
+          case 133: break;
           case 50:
           { return symbol("in");
           }
           // fall through
-          case 133: break;
+          case 134: break;
           case 51:
           { return symbol("of");
           }
           // fall through
-          case 134: break;
+          case 135: break;
           case 52:
           { return symbol("or");
           }
           // fall through
-          case 135: break;
+          case 136: break;
           case 53:
           { return symbol("char" ,yytext().charAt(0));
           }
           // fall through
-          case 136: break;
-          case 54:
-          { return symbol("and");
-          }
-          // fall through
           case 137: break;
-          case 55:
-          { return symbol("end");
+          case 54:
+          { return symbol("int_const", yytext());
           }
           // fall through
           case 138: break;
-          case 56:
-          { return symbol("for");
+          case 55:
+          { return symbol("and");
           }
           // fall through
           case 139: break;
-          case 57:
-          { return symbol("base_type");
+          case 56:
+          { return symbol("end");
           }
           // fall through
           case 140: break;
-          case 58:
-          { return symbol("len");
+          case 57:
+          { return symbol("for");
           }
           // fall through
           case 141: break;
-          case 59:
-          { return symbol("new");
+          case 58:
+          { return symbol("base_type");
           }
           // fall through
           case 142: break;
-          case 60:
-          { return symbol("not");
+          case 59:
+          { return symbol("len");
           }
           // fall through
           case 143: break;
-          case 61:
-          { return symbol("real_const", yytext());
+          case 60:
+          { return symbol("new");
           }
           // fall through
           case 144: break;
-          case 62:
-          { return symbol("auto");
+          case 61:
+          { return symbol("not");
           }
           // fall through
           case 145: break;
-          case 63:
-          { return symbol("case");
+          case 62:
+          { return symbol("real_const", yytext());
           }
           // fall through
           case 146: break;
-          case 64:
-          { return symbol("else");
+          case 63:
+          { return symbol("auto");
           }
           // fall through
           case 147: break;
-          case 65:
-          { return symbol("true", Boolean.valueOf(yytext()));
+          case 64:
+          { return symbol("case");
           }
           // fall through
           case 148: break;
-          case 66:
-          { return symbol("void");
+          case 65:
+          { return symbol("else");
           }
           // fall through
           case 149: break;
-          case 67:
-          { return symbol("begin");
+          case 66:
+          { return symbol("true", Boolean.valueOf(yytext()));
           }
           // fall through
           case 150: break;
-          case 68:
-          { return symbol("break");
+          case 67:
+          { return symbol("void");
           }
           // fall through
           case 151: break;
-          case 69:
-          { return symbol("const");
+          case 68:
+          { return symbol("begin");
           }
           // fall through
           case 152: break;
-          case 70:
-          { return symbol("false", Boolean.valueOf(yytext()));
+          case 69:
+          { return symbol("break");
           }
           // fall through
           case 153: break;
-          case 71:
-          { return symbol("input");
+          case 70:
+          { return symbol("const");
           }
           // fall through
           case 154: break;
-          case 72:
-          { return symbol("start");
+          case 71:
+          { return symbol("false", Boolean.valueOf(yytext()));
           }
           // fall through
           case 155: break;
-          case 73:
-          { return symbol("until");
+          case 72:
+          { return symbol("input");
           }
           // fall through
           case 156: break;
-          case 74:
-          { flag = true; return symbol("record");
+          case 73:
+          { return symbol("start");
           }
           // fall through
           case 157: break;
-          case 75:
-          { return symbol("repeat");
+          case 74:
+          { return symbol("until");
           }
           // fall through
           case 158: break;
-          case 76:
-          { return symbol("return");
+          case 75:
+          { flag = true; return symbol("record");
           }
           // fall through
           case 159: break;
-          case 77:
-          { return symbol("sizeof");
+          case 76:
+          { return symbol("repeat");
           }
           // fall through
           case 160: break;
-          case 78:
-          { return symbol("switch");
+          case 77:
+          { return symbol("return");
           }
           // fall through
           case 161: break;
-          case 79:
-          { return symbol("default");
+          case 78:
+          { return symbol("sizeof");
           }
           // fall through
           case 162: break;
-          case 80:
-          { return symbol("foreach");
+          case 79:
+          { return symbol("switch");
           }
           // fall through
           case 163: break;
-          case 81:
-          { return symbol("println");
+          case 80:
+          { return symbol("default");
           }
           // fall through
           case 164: break;
-          case 82:
-          { return symbol("continue");
+          case 81:
+          { return symbol("foreach");
           }
           // fall through
           case 165: break;
-          case 83:
-          { return symbol("function");
+          case 82:
+          { return symbol("println");
           }
           // fall through
           case 166: break;
+          case 83:
+          { return symbol("continue");
+          }
+          // fall through
+          case 167: break;
+          case 84:
+          { return symbol("function");
+          }
+          // fall through
+          case 168: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
       }
     }
   }
+
+
+
 
   @Override
   public String nextToken() {
@@ -1338,3 +1345,7 @@ class Scanner implements Lexical {
   }
 
 }
+
+
+
+
