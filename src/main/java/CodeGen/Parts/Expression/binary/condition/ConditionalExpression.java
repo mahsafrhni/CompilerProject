@@ -10,11 +10,14 @@ import static org.objectweb.asm.Opcodes.ICONST_1;
 abstract class ConditionalExpression extends BinaryExpression {
     ConditionalExpression(Expression firstop, Expression secondop) {
         super(firstop, secondop);
+
     }
 
     void cmp(int notIntOpcode, int intOpcode, MethodVisitor mv, ClassWriter cw) {
         firstop.codegen(mv, cw);
         secondop.codegen(mv, cw);
+        System.out.println(firstop.getType());
+        System.out.println(secondop.getType());
         if (!firstop.getType().equals(secondop.getType()))
             throw new RuntimeException("types not match for " + this.getClass().getName());
         type = firstop.getType();

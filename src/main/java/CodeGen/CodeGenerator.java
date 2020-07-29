@@ -66,7 +66,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(lexical.currentToken().getValue());
 
                     temp = lexical.currentToken().getValue();
-                    //System.out.println(temp + " salam salam");
+                    System.out.println(temp + " salam salam");
                     //flag = true;
 
                 break;
@@ -122,12 +122,16 @@ public class CodeGenerator implements Parser.CodeGenerator {
             case "mkSimpleVarDCL": {
                 String name = (String) lexical.currentToken().getValue();
                 Type type = SymTabHandler.getTypeFromName((String) semanticStack.pop());
-                if (semanticStack.peek() instanceof GlobalBlock)
+                if (semanticStack.peek() instanceof GlobalBlock) {
                     SymTabHandler.getInstance().addVariable(name, new GlobalVarDCSP(type, false, false));
-                else
+                    System.out.println("if");
+                }
+                else{
+                    System.out.println("else");
                     SymTabHandler.getInstance().addVariable(name, new LocalVarDCSP(type, false,
                             SymTabHandler.getInstance().getIndex(), false));
                 semanticStack.push(new NOP(name));
+                }
                 break;
             }
             case "constTrue": {
@@ -443,13 +447,19 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 String name = (String) lexical.currentToken().getValue();
                 if (SymTabHandler.getInstance().getFuncNames().contains(name)) {
                     semanticStack.push(name);
+                    System.out.println("1");
                     break;
                 }
                 DCSP dscp = SymTabHandler.getInstance().getDescriptor(name);
-                if (dscp instanceof GlobalVarDCSP || dscp instanceof LocalVarDCSP)
+                if (dscp instanceof GlobalVarDCSP || dscp instanceof LocalVarDCSP) {
+                    System.out.println("2");
                     semanticStack.push(new SimpleVar(name, dscp.getType()));
-                else if (dscp instanceof GlobalArrDCSP || dscp instanceof LocalArrDCSP)
+                    System.out.println(new SimpleVar(name, dscp.getType()));
+                }
+                else if (dscp instanceof GlobalArrDCSP || dscp instanceof LocalArrDCSP) {
                     semanticStack.push(new ArrVar(name, new ArrayList<>(), dscp.getType()));
+                    System.out.println("3");
+                }
                 break;
             }
             case "flagpp": {
@@ -749,6 +759,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                     throw new RuntimeException("you can't assign an expression to array");
             }
         }
+      //  System.out.println("ok");
     }
 }
 

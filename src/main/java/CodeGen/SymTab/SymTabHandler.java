@@ -173,8 +173,11 @@ public class SymTabHandler {
             return Opcodes.T_DOUBLE;
         else if (type == Type.CHAR_TYPE)
             return Opcodes.T_CHAR;
-        else if (type == Type.BOOLEAN_TYPE)
+        else if (type == Type.BOOLEAN_TYPE) {
+            System.out.println("=============");
+            System.out.println(Opcodes.T_BOOLEAN);
             return Opcodes.T_BOOLEAN;
+        }
         else if (type == Type.FLOAT_TYPE)
             return Opcodes.T_FLOAT;
         else

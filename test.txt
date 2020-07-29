@@ -1,4 +1,4 @@
-function void start() {
-   float number1=2f;
+function void start(){
+int a=2,b=3;
 return;
 }
