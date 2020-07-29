@@ -42,7 +42,9 @@ DoubleNumber = {Sign}(\.{Digit}+) | {Sign}({Digit}+\.) |{Sign}({Digit}+\.{Digit}
 FloatNumber = {Num}[fF]
 
 //Ee = (e|E)
-ScientificNumber = {Num}[e]{Num}
+ScientificNumber1 = {DoubleNumber}[e]{Sign}{NoSignDecimal}
+ScientificNumber2 = {NoSignDecimal}[e]{Sign}{NoSignDecimal}
+
 
 /* WHITESPACE */
 LineTerminator = \r|\n|\r\n
@@ -179,7 +181,9 @@ AcooladBaz=[{]
 
       {DoubleNumber} {return symbol("real_const", Double.valueOf(yytext()));}
    {FloatNumber} {return symbol("real_const", Double.valueOf(yytext()));}
-       {ScientificNumber} {return symbol("real_const", yytext());}
+       {ScientificNumber1} {return symbol("real_const", (Integer.parseInt(yytext().split("e",10)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
+           {ScientificNumber2} {return symbol("real_const", (Integer.parseInt(yytext().split("e",10)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
+
     /* WHITESPACE */
     {WhiteSpace}        {/* skip */}
     {AcooladBaste} {return symbol("}");}

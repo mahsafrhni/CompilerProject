@@ -1,6 +1,6 @@
 function void start(){
-//auto a=2;
-double a=3.4e+2;
+double a=3e+2;
+sizeof(a);
 return;
 }
 

@@ -712,8 +712,30 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 break;
             }
             case "sizeof": {
-                String baseType = (String) semanticStack.pop();
-                semanticStack.push(new SizeOf(baseType));
+                String id = (String) semanticStack.pop();
+                String base = SymTabHandler.getInstance().getDescriptor(id).getType().toString();
+                if(base.equals("C")){
+                    base = "char";
+                }
+                if (base.equals("I")){
+                    base = "int";
+                }
+                if (base.equals("Z")){
+                    base = "bool";
+                }
+                if (base.equals("J")){
+                    base = "long";
+                }
+                if (base.equals("D")){
+                    base = "double";
+                }
+                if (base.equals("F")){
+                    base = "float";
+                }
+                if (base.equals("Ljava/lang/String;")){
+                    base = "string";
+                }
+                semanticStack.push(new SizeOf(base));
                 break;
             }
            case "myPush": {
