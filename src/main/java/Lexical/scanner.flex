@@ -34,7 +34,7 @@ Sign = (\+|\-)?
 NoSignDecimal = [0-9]+
 DecimalInt = {ESign}{NoSignDecimal}
 
-DecimalLong = [0-9][L]
+DecimalLong = [0-9]+[L]
 HexaDecimal = {Sign}[0][xX][0-9a-fA-F]+
 Digit = [0-9]
 Num = {DoubleNumber}|{DecimalInt}|{NoSignDecimal}

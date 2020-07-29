@@ -16,7 +16,6 @@ class Scanner implements Lexical {
   private MySymbol currentSymbol = null;
   /** This character denotes the end of file. */
 
-
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
 
@@ -220,8 +219,8 @@ class Scanner implements Lexical {
                   "\1\105\2\0\1\106\1\0\1\107\1\110\3\0\1\111"+
                   "\65\0\1\112\1\106\1\0\1\113\1\114\3\0\1\115"+
                   "\70\0\2\116\60\0\1\117\20\0\1\120\66\0\1\116"+
-                  "\1\0\2\114\6\0\1\121\1\122\1\0\1\123\1\124"+
-                  "\11\0\1\121\1\122\44\0\1\116\1\0\2\114\6\0"+
+                  "\1\0\2\30\6\0\1\121\1\122\1\0\1\123\1\124"+
+                  "\11\0\1\121\1\122\44\0\1\116\1\0\2\30\6\0"+
                   "\1\121\1\122\1\0\1\123\12\0\1\121\1\122\53\0"+
                   "\1\125\75\0\1\126\75\0\1\127\70\0\2\36\5\0"+
                   "\6\36\4\0\26\36\44\0\1\23\60\0\2\36\5\0"+
@@ -1322,10 +1321,6 @@ class Scanner implements Lexical {
       }
     }
   }
-
-
-
-
 
   @Override
   public String nextToken() {
