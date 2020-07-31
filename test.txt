@@ -1,3 +1,7 @@
+/* This test is almost everything
+       * our compiler can handle.
+       */
+
 function char charFunc(char m);
 function int max(int c);
 function string printName(string name);
@@ -12,6 +16,17 @@ function void start(){
     bool flag=true;
     long lnumber=1234L;
     float fnumber=34.23F;
+ ////////////////////////
+ //Arithmetic Calculations:
+    int b=0;
+    int c=1;
+    int e=2;
+    int f=3;
+    int g=4;
+    int h=5;
+    int answer1=(b+c)-e*(f/g)%h;
+    int answer2=(b&c)|f^g;
+    int answer4=((b+c)-e*(f/g)%h)|h+((b&c)|f^g);
  ////////////////////////
  //Casts:
     long gg=(long)a;    //int to long
@@ -35,24 +50,52 @@ function void start(){
     int num1=input(int);
     int num2=input(int);
     println(min(num1,num2));
-
+//////////////////////
+// 1d and Multidimensional arrays:
     int[] arr=new int[3];
+    int[][] Twodarr=new int[2][2];
+    int[][][] Threedarr=new int[2][2][2];
+//////////////////////
+//Loops:
+    repeat{
+      a--;
+       }until(a==0);
 
-    for(int i=1; i<=6; i++){
-      /* This statement would be executed
-       * i<=6 returns false.
-       */
+   for(int i=1; i<=6; i++){
         println("Value of variable i is: ");
-        if(i<3){
-        i++;
-        }
-        else{
-        i--;
-        }
-        println(i);
+       println(i);
     }
-
+//////////////////////////////
+int day = 4;
+switch (day) of: begin
+  case 1:{
+    println("Monday"); }
+  case 2:{
+    println("Tuesday");
+    break; }
+  case 3:{
+   println("Wednesday");}
+  case 4:{
+    println("Thursday");}
+  case 5:{
+   println("Friday");}
+  case 6:{
+   println("Saturday");}
+  case 7:{
+   println("Sunday");}
+   default: {  }
+end
+//////////////////////////////
 sizeof(a);
+//////////////////////////////
+ if(a<3){
+        a++;
+        }
+ else{
+        a--;
+        }
+//////////////////////////////
+
 return;
 }
 
