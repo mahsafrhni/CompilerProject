@@ -793,26 +793,21 @@ public class CodeGenerator implements Parser.CodeGenerator {
         String stringToConvert = String.valueOf(o);
         Long convertedLong = Long.parseLong(stringToConvert);
         return convertedLong;
-
     }
     public static Float convertToFloat(Object o) {
         String stringToConvert = String.valueOf(o);
         Float convertedFloat = Float.parseFloat(stringToConvert);
         return convertedFloat;
-
     }
 }
 
 class NOP implements Op {
     String name;
-
     public NOP(String name) {
         this.name = name;
     }
-
     public NOP() {
     }
-
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
     }

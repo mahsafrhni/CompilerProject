@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(new FileReader("test2.txt"));
+        Scanner scanner = new Scanner(new FileReader("test.txt"));
         CodeGenerator codeGenerator = new CodeGenerator(scanner);
         parseInput(scanner, codeGenerator);
     }

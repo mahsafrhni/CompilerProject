@@ -4,21 +4,40 @@ function string printName(string name);
 function int min(int num1, int num2);
 
 function void start(){
+//Different Types:
     int a=353*(2- 5);
     double d=2.3;
     char ch='c';
     string name = "mahsa";
     bool flag=true;
     long lnumber=1234L;
-   // float fnumber=34.23F;
+    float fnumber=34.23F;
+ ////////////////////////
+ //Casts:
+    long gg=(long)a;    //int to long
+    float ff=(float)d;  //float to double
+    int ii=(int)ch;     //char to int
+    long ll=(long)ch;   //char to long
+    int jj=(int)fnumber;  //float to int
+    int zz=(int)d;         //double to int
+    long l=(long)fnumber;  //float to long
+    long lll=(long)d;      //double to long
+ //////////////////////
+ //PrintlnMethod:
     println("salam");
-    charFunc('M');
     println(max(a));
+    println(3);
+//////////////////////
+//Call by value functions:
+    charFunc('M');
     printName(name);
+ //////////////////////
     int num1=input(int);
     int num2=input(int);
     println(min(num1,num2));
+
     int[] arr=new int[3];
+
     for(int i=1; i<=6; i++){
       /* This statement would be executed
        * i<=6 returns false.
@@ -32,6 +51,7 @@ function void start(){
         }
         println(i);
     }
+
 sizeof(a);
 return;
 }
