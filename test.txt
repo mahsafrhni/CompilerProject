@@ -10,7 +10,7 @@ function void start(){
     string name = "mahsa";
     bool flag=true;
     long lnumber=1234L;
-    float fnumber=34.23F;
+   // float fnumber=34.23F;
     println("salam");
     charFunc('M');
     println(max(a));

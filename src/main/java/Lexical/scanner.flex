@@ -173,14 +173,14 @@ AcooladBaz=[{]
     /* NUMBERS */
    {NoSignDecimal} {return symbol("int_const", Integer.valueOf(yytext()));}
       {DecimalInt} {return symbol("int_const", Integer.valueOf(yytext()));}
-   {DecimalLong}  {return symbol("long_const", Integer.parseInt(yytext().split("L",3)[0]));}
+   {DecimalLong}  {return symbol("long_const", Integer.parseInt(yytext().split("L",10)[0]));}
 
 
       {HexaDecimal}  {return symbol("int_const", yytext());}
 
 
       {DoubleNumber} {return symbol("real_const", Double.valueOf(yytext()));}
-   {FloatNumber} {return symbol("real_const", Double.valueOf(yytext()));}
+   {FloatNumber} {return symbol("float_const", Double.valueOf(yytext().split("F",10)[0]));}
        {ScientificNumber1} {return symbol("real_const", (Integer.parseInt(yytext().split("e",10)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
            {ScientificNumber2} {return symbol("real_const", (Integer.parseInt(yytext().split("e",10)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
 

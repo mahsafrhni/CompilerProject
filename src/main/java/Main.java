@@ -5,22 +5,18 @@ import Parser.Parser;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
 public class Main {
-
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new FileReader("test2.txt"));
         CodeGenerator codeGenerator = new CodeGenerator(scanner);
         parseInput(scanner, codeGenerator);
     }
-
     private static void parseInput(Scanner lexicalAnalyzer, CodeGenerator codeGenerator) {
         Parser parser = new Parser(lexicalAnalyzer,
-                codeGenerator, "src/main/java/parser/Table.npt");
+                codeGenerator, "src/main/java/Parser/Table.npt");
         Node result;
         try {
 // Parse given file
@@ -34,6 +30,8 @@ public class Main {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC | Opcodes.ACC_SUPER, "Main",
                 null, "java/lang/Object", null);
+        MethodVisitor methodVisitor1 = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
+        methodVisitor1.visitCode();
         MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_STATIC | Opcodes.ACC_PUBLIC,
                 "main", "([Ljava/lang/String;)V", null, null);
         methodVisitor.visitCode();

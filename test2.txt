@@ -1,7 +1,6 @@
 function void start(){
 
-long c=235L;
-int a=3;
-long d=(long)a;
+float a=34.23F;
+double d=(double)a;
 return;
 }

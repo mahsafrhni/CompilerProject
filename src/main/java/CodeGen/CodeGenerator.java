@@ -428,6 +428,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new LongConst(num));
                 break;
             }
+            case "pushFloat": {
+                Object FloatNum = lexical.currentToken().getValue();
+                Float num = convertToFloat(FloatNum);
+                semanticStack.push(new FloatConst(num));
+                break;
+            }
             case "pushBool": {
                 Object value = lexical.currentToken().getValue();
                 semanticStack.push(new BoolConst((Boolean) value));
@@ -787,6 +793,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
         String stringToConvert = String.valueOf(o);
         Long convertedLong = Long.parseLong(stringToConvert);
         return convertedLong;
+
+    }
+    public static Float convertToFloat(Object o) {
+        String stringToConvert = String.valueOf(o);
+        Float convertedFloat = Float.parseFloat(stringToConvert);
+        return convertedFloat;
 
     }
 }
