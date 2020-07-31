@@ -44,9 +44,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
     private Lexical lexical;
     private SS semanticStack;
     Object temp = null;
-    boolean flag = true;
     int counter = 1;
-
 
     public CodeGenerator(Lexical lexical) {
         this.lexical = lexical;
@@ -59,16 +57,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
     }
 
     public void doSemantic(String sem) {
-
         switch (sem) {
             /* --------------------- global --------------------- */
             case "push": {
                 semanticStack.push(lexical.currentToken().getValue());
-
-                    temp = lexical.currentToken().getValue();
-                    System.out.println(temp + " salam salam");
-                    //flag = true;
-
+                temp = lexical.currentToken().getValue();
+                // System.out.println(temp + " salam salam");
                 break;
             }
             case "pop": {
@@ -84,7 +78,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new Block(new ArrayList<>()));
                 break;
             }
-
             /* --------------------- declarations --------------------- */
             case "mkFuncDCL": {
                 Type type = SymTabHandler.getTypeFromName((String) semanticStack.pop());
@@ -125,12 +118,11 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 if (semanticStack.peek() instanceof GlobalBlock) {
                     SymTabHandler.getInstance().addVariable(name, new GlobalVarDCSP(type, false, false));
                     System.out.println("if");
-                }
-                else{
-                    System.out.println("else");
+                } else {
+                  //  System.out.println("else");
                     SymTabHandler.getInstance().addVariable(name, new LocalVarDCSP(type, false,
                             SymTabHandler.getInstance().getIndex(), false));
-                semanticStack.push(new NOP(name));
+                    semanticStack.push(new NOP(name));
                 }
                 break;
             }
@@ -147,15 +139,14 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 break;
             }
             case "addBlock": { //fill function's block
-                if (counter ==1) {
+                if (counter == 1) {
                     Op operation = (Op) semanticStack.pop();
                     Block block = (Block) semanticStack.pop();
                     block.addOperation(operation);
                     semanticStack.push(block);
                     break;
-
                 }
-                if(counter==2){
+                if (counter == 2) {
                     Op operation = (Op) semanticStack.pop();
                     Op operation2 = (Op) semanticStack.pop();
                     Block block = (Block) semanticStack.pop();
@@ -250,10 +241,10 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 ArrDCL arrDcl;
                 if (semanticStack.peek() instanceof GlobalBlock) {
                     arrDcl = new ArrDCL(name, type, true, expressionList.size());
-                    arrDcl.declare(name, type, expressionList, expressionList.size(), true);
+                    ArrDCL.declare(name, type, expressionList, expressionList.size(), true);
                 } else {
                     arrDcl = new ArrDCL(name, type, false, expressionList.size());
-                    arrDcl.declare(name, type, expressionList, expressionList.size(), false);
+                    ArrDCL.declare(name, type, expressionList, expressionList.size(), false);
                 }
                 arrDcl.setDimensions(expressionList);
                 semanticStack.push(arrDcl);
@@ -455,8 +446,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                     System.out.println("2");
                     semanticStack.push(new SimpleVar(name, dscp.getType()));
                     System.out.println(new SimpleVar(name, dscp.getType()));
-                }
-                else if (dscp instanceof GlobalArrDCSP || dscp instanceof LocalArrDCSP) {
+                } else if (dscp instanceof GlobalArrDCSP || dscp instanceof LocalArrDCSP) {
                     semanticStack.push(new ArrVar(name, new ArrayList<>(), dscp.getType()));
                     System.out.println("3");
                 }
@@ -625,7 +615,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 Block block = (Block) semanticStack.pop();
                 Byte flag = (Byte) semanticStack.pop();
                 InitExp initExp = null;
-                Expression exp = null;
+                Expression exp;
                 StepExp stepExp = null;
                 if (flag == 0) {
                     exp = (Expression) semanticStack.pop();
@@ -714,37 +704,37 @@ public class CodeGenerator implements Parser.CodeGenerator {
             case "sizeof": {
                 String id = (String) semanticStack.pop();
                 String base = SymTabHandler.getInstance().getDescriptor(id).getType().toString();
-                if(base.equals("C")){
+                if (base.equals("C")) {
                     base = "char";
                 }
-                if (base.equals("I")){
+                if (base.equals("I")) {
                     base = "int";
                 }
-                if (base.equals("Z")){
+                if (base.equals("Z")) {
                     base = "bool";
                 }
-                if (base.equals("J")){
+                if (base.equals("J")) {
                     base = "long";
                 }
-                if (base.equals("D")){
+                if (base.equals("D")) {
                     base = "double";
                 }
-                if (base.equals("F")){
+                if (base.equals("F")) {
                     base = "float";
                 }
-                if (base.equals("Ljava/lang/String;")){
+                if (base.equals("Ljava/lang/String;")) {
                     base = "string";
                 }
                 semanticStack.push(new SizeOf(base));
                 break;
             }
-           case "myPush": {
-              //  if (flag = true) {
-                    semanticStack.push(temp);
-                    counter++;
-                  //  flag = false;
-                    break;
-               // }
+            case "myPush": {
+                //  if (flag = true) {
+                semanticStack.push(temp);
+                counter++;
+                //  flag = false;
+                break;
+                // }
             }
             default:
                 throw new RuntimeException("Illegal semantic function: " + sem);
@@ -758,13 +748,14 @@ public class CodeGenerator implements Parser.CodeGenerator {
             if (lastFunc.getBlock() == null && function.getBlock() != null) {
                 GlobalBlock.getInstance().getDeclarationList().remove(lastFunc);
                 GlobalBlock.getInstance().addDeclaration(function);
-            } else if (lastFunc.getBlock() != null && lastFunc.getBlock() == null) {
-            } else
-                throw new RuntimeException("the function is duplicate!!!");
+            } else {
+                if (lastFunc.getBlock() == null || lastFunc.getBlock() != null) {
+                    throw new RuntimeException("the function is duplicate!!!");
+                }
+            }
         } else {
             GlobalBlock.getInstance().addDeclaration(function);
         }
-
     }
 
     private void checkAssign(Var variable) {
@@ -781,7 +772,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                     throw new RuntimeException("you can't assign an expression to array");
             }
         }
-      //  System.out.println("ok");
+        //  System.out.println("ok");
     }
 }
 

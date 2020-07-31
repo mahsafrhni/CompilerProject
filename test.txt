@@ -1,6 +1,51 @@
+function char M(char m);
+function int max(int c);
+function string printName(string name);
+function int min(int num1, int num2);
+
 function void start(){
-double a=3e+2;
-sizeof(a);
+int a=353*(2- 5);
+string name = "mahsa";
+M('M');
+println(max(a));
+println("salam");
+printName(name);
+int num1=0;
+int num2=0;
+num1=input(int);
+num2=input(int);
+println(min(num1,num2));
+int[] arr =new int[3];
+arr[0]=0;
+arr[1]=1;
+arr[2]=2;
+//for(int i=0;i<3;i++){
+//println(arr[i]);
+//}
 return;
 }
 
+function int max(int c){
+int b=c- 1;
+//return c-1;
+return b;
+}
+
+function char M(char m){
+return m;
+}
+
+function string printName(string name){
+return name;
+}
+
+function int min(int num1, int num2){
+int minimum=0;
+if(num1<num2){
+minimum=num1;
+}
+else{
+minimum=num2;
+}
+return minimum;
+}

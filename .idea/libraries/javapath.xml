@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="javapath">
+    <ANNOTATIONS>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" />
+    </SOURCES>
+    <jarDirectory url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" recursive="false" />
+    <jarDirectory url="file://C:/Program Files (x86)/Common Files/Oracle/Java/javapath" recursive="false" type="SOURCES" />
+  </library>
+</component>
