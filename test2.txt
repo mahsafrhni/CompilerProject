@@ -1,0 +1,4 @@
+function void start(){
+long a=234L;
+return;
+}

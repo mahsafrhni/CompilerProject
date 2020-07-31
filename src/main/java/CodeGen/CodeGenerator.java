@@ -40,6 +40,8 @@ import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static sun.security.krb5.Confounder.longValue;
+
 public class CodeGenerator implements Parser.CodeGenerator {
     private Lexical lexical;
     private SS semanticStack;
@@ -119,7 +121,7 @@ public class CodeGenerator implements Parser.CodeGenerator {
                     SymTabHandler.getInstance().addVariable(name, new GlobalVarDCSP(type, false, false));
                     System.out.println("if");
                 } else {
-                  //  System.out.println("else");
+                    //  System.out.println("else");
                     SymTabHandler.getInstance().addVariable(name, new LocalVarDCSP(type, false,
                             SymTabHandler.getInstance().getIndex(), false));
                     semanticStack.push(new NOP(name));
@@ -418,6 +420,11 @@ public class CodeGenerator implements Parser.CodeGenerator {
                     semanticStack.push(new IntegerConst((Integer) integerNum));
                 else
                     semanticStack.push(new LongConst((Long) integerNum));
+                break;
+            }
+            case "pushLong": {
+                Object longNum = lexical.currentToken().getValue();
+                semanticStack.push(convertToLong(longNum));
                 break;
             }
             case "pushBool": {
@@ -773,6 +780,13 @@ public class CodeGenerator implements Parser.CodeGenerator {
             }
         }
         //  System.out.println("ok");
+    }
+
+    public static Long convertToLong(Object o) {
+        String stringToConvert = String.valueOf(o);
+        Long convertedLong = Long.parseLong(stringToConvert);
+        return convertedLong;
+
     }
 }
 
