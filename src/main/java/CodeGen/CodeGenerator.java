@@ -424,7 +424,8 @@ public class CodeGenerator implements Parser.CodeGenerator {
             }
             case "pushLong": {
                 Object longNum = lexical.currentToken().getValue();
-                semanticStack.push(convertToLong(longNum));
+                long num = convertToLong(longNum);
+                semanticStack.push(new LongConst(num));
                 break;
             }
             case "pushBool": {

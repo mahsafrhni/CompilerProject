@@ -1,6 +1,7 @@
 function void start(){
-int a=5;
-long b=(long)a;
+
 long c=235L;
+int a=3;
+long d=(long)a;
 return;
 }
