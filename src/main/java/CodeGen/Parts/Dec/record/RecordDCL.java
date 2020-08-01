@@ -7,6 +7,10 @@ import org.objectweb.asm.MethodVisitor;
 
 @Data
 public class RecordDCL implements Dec {
+    public RecordDCL(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
