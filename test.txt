@@ -2,11 +2,16 @@
        * our compiler can handle.
        */
 
+int globalVar = 0;
+
 function char charFunc(char m);
 function int max(int c);
-function string printName(string name);
 function int min(int num1, int num2);
 function string max(int q);
+
+function string printName(string name){
+    return name;
+}
 
 function void start(){
 //Different Types:
@@ -32,7 +37,7 @@ function void start(){
     int answer1 = (b + c) - e * (f / g) % h;
     int answer2 = (b & c) | f ^ g;
     int answer4 = ( ( b + c )- e * (f / g) % h ) | h + ( ( b & c ) | f ^ g );
-    int answer5 = 0x34 * 298 - c;
+    int answer5 = 0x34 * 298 - globalVar;
     int answer6 = c & 0xFF00;
     int answer7 = answer1 + answer2;
     int prefix = (--a) + (++c);
@@ -74,6 +79,9 @@ function void start(){
         println("Value of variable i is: ");
        println(i);
     }
+   // foreach ( a in arr ) {
+    //  }
+
 //////////////////////////////
 int day = 4;
 switch (day) of: begin
@@ -95,7 +103,7 @@ switch (day) of: begin
    default: {  }
 end
 //////////////////////////////
-//len(arr);
+//len(name);
 Sizeof(a);
 //////////////////////////////
     if( a < 3 or a > 2 ){
@@ -127,10 +135,6 @@ function string max(int q){
 
 function char charFunc(char m){
    return m;
-}
-
-function string printName(string name){
-    return name;
 }
 
 function int min(int num1, int num2){

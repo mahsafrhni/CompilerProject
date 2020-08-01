@@ -117,15 +117,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
             case "mkSimpleVarDCL": {
                 String name = (String) lexical.currentToken().getValue();
                 Type type = SymTabHandler.getTypeFromName((String) semanticStack.pop());
-                if (semanticStack.peek() instanceof GlobalBlock) {
+                if (semanticStack.peek() instanceof GlobalBlock)
                     SymTabHandler.getInstance().addVariable(name, new GlobalVarDCSP(type, false, false));
-                    System.out.println("if");
-                } else {
-                    //  System.out.println("else");
+                else
                     SymTabHandler.getInstance().addVariable(name, new LocalVarDCSP(type, false,
                             SymTabHandler.getInstance().getIndex(), false));
-                    semanticStack.push(new NOP(name));
-                }
+                semanticStack.push(new NOP(name));
                 break;
             }
             case "constTrue": {

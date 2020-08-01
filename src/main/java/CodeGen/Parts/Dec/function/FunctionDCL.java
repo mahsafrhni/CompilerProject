@@ -9,7 +9,7 @@ import CodeGen.Parts.St.ReturnFunc;
 import CodeGen.SymTab.DSCP.LocalVarDCSP;
 import CodeGen.SymTab.Scope;
 import CodeGen.SymTab.SymTabHandler;
-import lombok.Data;
+//import lombok.Data;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -21,7 +21,7 @@ import java.util.List;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
-@Data
+//@Data
 public class FunctionDCL implements Dec {
     private Type type;
     private String name;

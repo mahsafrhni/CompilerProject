@@ -6,7 +6,7 @@ import CodeGen.Parts.St.condition.Switch;
 import CodeGen.Parts.St.loop.Loop;
 import CodeGen.SymTab.DSCP.DCSP;
 import CodeGen.SymTab.DSCP.LocalDCSP;
-import lombok.Data;
+//import lombok.Data;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-@Data
+//@Data
 public class SymTabHandler {
     public Loop getInnerLoop() {
         return innerLoop;
