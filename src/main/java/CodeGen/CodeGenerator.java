@@ -339,6 +339,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new OR(first, second));
                 break;
             }
+            case "xor": {
+                Expression second = (Expression) semanticStack.pop();
+                Expression first = (Expression) semanticStack.pop();
+                semanticStack.push(new XOR(first, second));
+                break;
+            }
             case "orBit": {
                 Expression second = (Expression) semanticStack.pop();
                 Expression first = (Expression) semanticStack.pop();
@@ -352,11 +358,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 break;
             }
             /* -------------------------- Unary   ---------------------------- */
-            case "bitwiseNot": {
-                Expression exp = (Expression) semanticStack.pop();
-                semanticStack.push(new BitwiseNot(exp));
-                break;
-            }
             case "cast": {
                 Expression exp = (Expression) semanticStack.pop();
                 Type newType = SymTabHandler.getTypeFromName((String) semanticStack.pop());

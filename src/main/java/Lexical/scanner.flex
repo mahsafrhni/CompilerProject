@@ -68,13 +68,13 @@ AcooladBaz=[{]
     ">"     { return symbol(">");}
     ">="    { return symbol(">=");}
     "="     { return symbol("=");}
-    "~"     { return symbol("tilda");}
     "&"     { return symbol("&");}
     "|"     { return symbol("|");}
     "^"     { return symbol("^");}
     "and"   { return symbol("and");}
     "or"    { return symbol("or");}
     "not"   { return symbol("not");}
+    "xor"   { return symbol("xor");}
     "*"     { return symbol("*");}
     "+"     { return symbol("+");}
     "+="    { return symbol("+=");}

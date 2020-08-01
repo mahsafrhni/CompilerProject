@@ -213,7 +213,6 @@ public class SymTabHandler {
                 if ((lastfunc.getBlock() != null && funcDcl.getBlock() != null) ||
                         (lastfunc.getBlock() == null && funcDcl.getBlock() == null))
                     throw new RuntimeException("the function is duplicate!!!");
-
             } else {
                 funcDcls.get(funcDcl.getName()).add(funcDcl);
             }
@@ -254,8 +253,8 @@ public class SymTabHandler {
         int symbolTbl = stackScopes.size() - 1;
         while (symbolTbl >= 0) {
             if (stackScopes.get(symbolTbl).containsKey(name)) {
-               // System.out.println("===================>");
-             //   System.out.println(stackScopes.get(symbolTbl).get(name));
+                // System.out.println("===================>");
+                //   System.out.println(stackScopes.get(symbolTbl).get(name));
                 return stackScopes.get(symbolTbl).get(name);
             }
             symbolTbl--;
