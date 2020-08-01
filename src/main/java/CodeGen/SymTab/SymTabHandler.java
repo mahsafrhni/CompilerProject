@@ -196,8 +196,11 @@ public class SymTabHandler {
                 int index = funcDcls.get(funcDcl.getName()).indexOf(funcDcl);
                 FunctionDCL lastfunc = funcDcls.get(funcDcl.getName()).get(index);
                 if ((lastfunc.getBlock() != null && funcDcl.getBlock() != null) ||
-                        (lastfunc.getBlock() == null && funcDcl.getBlock() == null))
-                    throw new RuntimeException("!duplicate function!");
+                        (lastfunc.getBlock() == null && funcDcl.getBlock() == null)){
+                    if (funcDcl.getType().equals(lastfunc.getType()))
+                        throw new RuntimeException("the function is duplicate!!!");
+                }
+
             } else {
                 funcDcls.get(funcDcl.getName()).add(funcDcl);
             }
@@ -207,6 +210,7 @@ public class SymTabHandler {
             funcDcls.put(funcDcl.getName(), funcDclList);
         }
     }
+
 
     public FunctionDCL getFunction(String name, ArrayList<Type> inputs) {
         if (funcDcls.containsKey(name)) {

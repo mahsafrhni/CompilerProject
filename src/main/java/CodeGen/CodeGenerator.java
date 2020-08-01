@@ -763,14 +763,14 @@ public class CodeGenerator implements Parser.CodeGenerator {
             if (lastFunc.getBlock() == null && function.getBlock() != null) {
                 GlobalBlock.getInstance().getDeclarationList().remove(lastFunc);
                 GlobalBlock.getInstance().addDeclaration(function);
-            } else {
-                if (lastFunc.getBlock() == null || lastFunc.getBlock() != null) {
-                    throw new RuntimeException("the function is duplicate!!!");
-                }
+            } else if (lastFunc.getBlock() != null && lastFunc.getBlock() == null) {
+            } else if (function.getType().equals(lastFunc.getType())){
+                throw new RuntimeException("the function is duplicate!!!");
             }
         } else {
             GlobalBlock.getInstance().addDeclaration(function);
         }
+
     }
 
     private void checkAssign(Var variable) {
