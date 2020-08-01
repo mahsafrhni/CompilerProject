@@ -711,11 +711,11 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new Input(null));
                 break;
             }
-            case "len": {
-                Expression expression = (Expression) semanticStack.pop();
-                semanticStack.push(new Len(expression));
-                break;
-            }
+           case "len": {
+               Expression expression = (Expression) semanticStack.pop();
+              semanticStack.push(new Len(expression));
+               break;
+           }
             case "sizeof": {
                 String id = (String) semanticStack.pop();
                 String base = SymTabHandler.getInstance().getDescriptor(id).getType().toString();

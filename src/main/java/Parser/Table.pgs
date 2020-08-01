@@ -609,8 +609,8 @@
         "end": 29,
         "token": "\u003d",
         "func": "",
-        "anchorX": 602.9999999999998,
-        "anchorY": 383.5,
+        "anchorX": 622.9999999999998,
+        "anchorY": 384.5,
         "isGraph": false,
         "isGlobal": false
       },
@@ -623,6 +623,16 @@
         "anchorY": 383.9999999999949,
         "isGraph": true,
         "isGlobal": true
+      },
+      {
+        "start": 30,
+        "end": 27,
+        "token": "va",
+        "func": "myPush",
+        "anchorX": 591.5,
+        "anchorY": 522.5,
+        "isGraph": false,
+        "isGlobal": false
       },
       {
         "start": 32,
@@ -4433,8 +4443,8 @@
         "end": 221,
         "token": "EXP",
         "func": "len",
-        "anchorX": 563.5,
-        "anchorY": 350.5,
+        "anchorX": 567.5,
+        "anchorY": 318.5,
         "isGraph": true,
         "isGlobal": false
       },
