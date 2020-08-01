@@ -16,11 +16,6 @@ import java.util.Set;
 
 @Data
 public class SymTabHandler {
-
-    // public void setLastFunction(FunctionDCL lastFunction) {
-    //    LastFunction = lastFunction;
-    // }
-
     public Loop getInnerLoop() {
         return innerLoop;
     }
@@ -40,15 +35,6 @@ public class SymTabHandler {
     public ArrayList<SymTab> getStackScopes() {
         return stackScopes;
     }
-
-
-    //  public HashMap<String, ArrayList<FunctionDCL>> getFuncDcls() {
-    //       return funcDcls;
-    // }
-
-    //  public void setFuncDcls(HashMap<String, ArrayList<FunctionDCL>> funcDcls) {
-    ///     this.funcDcls = funcDcls;
-    //}
 
     private static SymTabHandler instance = new SymTabHandler();
 
@@ -110,7 +96,7 @@ public class SymTabHandler {
                 size = Integer.SIZE;
                 break;
             default:
-                throw new IllegalArgumentException("Type is not Valid");
+                throw new IllegalArgumentException("! not a valid Type.");
         }
         return size;
     }
@@ -179,7 +165,7 @@ public class SymTabHandler {
         } else if (type == Type.FLOAT_TYPE)
             return Opcodes.T_FLOAT;
         else
-            throw new RuntimeException(type + " is not correct");
+            throw new RuntimeException(type + "does not match!");
     }
 
     public Set<String> getFuncNames() {
@@ -200,11 +186,10 @@ public class SymTabHandler {
 
     public SymTab getLastScope() {
         if (stackScopes.size() == 0)
-            throw new RuntimeException("Something Goes Wrong");
+            throw new RuntimeException("There is a problem!");
         return stackScopes.get(stackScopes.size() - 1);
     }
 
-    //To declare a function add it to funcDcls
     public void addFunction(FunctionDCL funcDcl) {
         if (funcDcls.containsKey(funcDcl.getName())) {
             if (funcDcls.get(funcDcl.getName()).contains(funcDcl)) {
@@ -212,7 +197,7 @@ public class SymTabHandler {
                 FunctionDCL lastfunc = funcDcls.get(funcDcl.getName()).get(index);
                 if ((lastfunc.getBlock() != null && funcDcl.getBlock() != null) ||
                         (lastfunc.getBlock() == null && funcDcl.getBlock() == null))
-                    throw new RuntimeException("the function is duplicate!!!");
+                    throw new RuntimeException("!duplicate function!");
             } else {
                 funcDcls.get(funcDcl.getName()).add(funcDcl);
             }
@@ -231,16 +216,15 @@ public class SymTabHandler {
                     return f;
                 }
             }
-            throw new RuntimeException("function " + name + " with inputs " + inputs + " wasn't found");
+            throw new RuntimeException("there is no " + name + "function with  this inputs: " + inputs);
         } else {
-            throw new RuntimeException("function " + name + " with inputs " + inputs + " wasn't found");
+            throw new RuntimeException("there is no " + name + "function with  this inputs: " + inputs);
         }
     }
 
-    //declare a variable to the last symbol table
     public void addVariable(String name, DCSP dscp) {
         if (getLastScope().containsKey(name)) {
-            throw new RuntimeException("the variable declare previously");
+            throw new RuntimeException("You have declared this!");
         }
         if (dscp instanceof LocalDCSP) {
             getLastScope().put(name, dscp);
@@ -259,7 +243,7 @@ public class SymTabHandler {
             }
             symbolTbl--;
         }
-        throw new RuntimeException("the name " + name + " didn't initial");
+        throw new RuntimeException("You do not initial : " + name + "!");
     }
 
     public boolean canHaveBreak() {
@@ -274,8 +258,7 @@ public class SymTabHandler {
 
     private RecordDCL getRecord(String name) {
         if (recordDcls.containsKey(name))
-            throw new RuntimeException("Record not Found");
-
+            throw new RuntimeException("There is not this record!");
         return recordDcls.get(name);
     }
 
