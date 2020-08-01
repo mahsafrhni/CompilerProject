@@ -24,40 +24,28 @@ private MySymbol symbol(String token, Object val) {
  StringBuilder string = new StringBuilder();
 %}
 
-/* VARIABLES */
 id = {letter}({letter}|{Digit}|"_")*
 letter = [A-Za-z]
-
-/* INTEGER NUMBERS */
 ESign = (\-)
 Sign = (\+|\-)?
 NoSignDecimal = [0-9]+
 DecimalInt = {ESign}{NoSignDecimal}
-
-DecimalLong = [0-9]+[L]
-HexaDecimal = {Sign}[0][xX][0-9a-fA-F]+
+Long = [0-9]+[L]
+HexaDecimal = {Sign}[0][x][0-9a-fA-F]+
 Digit = [0-9]
 Num = {DoubleNumber}|{DecimalInt}|{NoSignDecimal}
-DoubleNumber = {Sign}(\.{Digit}+) | {Sign}({Digit}+\.) |{Sign}({Digit}+\.{Digit}+)
 FloatNumber = {Num}[fF]
-
-//Ee = (e|E)
+DoubleNumber = {Sign}(\.{Digit}+) | {Sign}({Digit}+\.) |{Sign}({Digit}+\.{Digit}+)
 ScientificNumber1 = {DoubleNumber}[e]{Sign}{NoSignDecimal}
 ScientificNumber2 = {NoSignDecimal}[e]{Sign}{NoSignDecimal}
-
-
-/* WHITESPACE */
 LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
 InputCharacter = [^\r\n]
-/* String character can be any character except those listed */
 StringCharacter = [^\t\r\n\"\'\\]
-
 SpecialCharacter = \\ ([trn\"\'\\])
-
-CStyleComment = "/*"~"*/"
+TwoLineComment = "/*"~"*/"
 OneLineComment = "//" {InputCharacter}* {LineTerminator}
-Comment = {CStyleComment}|{OneLineComment}
+Comment = {TwoLineComment}|{OneLineComment}
 AcooladBaste=[}]
 AcooladBaz=[{]
 
@@ -72,11 +60,8 @@ AcooladBaz=[{]
 /*lexical rules*/
 
 <YYINITIAL> {
-
-
     /* SYMBOLS */
     "=="    { return symbol("==");}
-
     "!="    { return symbol("!=");}
     "<="    { return symbol("<=");}
     "<"     { return symbol("<");}
@@ -101,7 +86,6 @@ AcooladBaz=[{]
     "%"     { return symbol("%");}
     "begin"    { return symbol("begin");}
     "end"     { return symbol("end");}
-
     "("     { return symbol("(");}
     ")"     { return symbol(")");}
     "."     { return symbol(".");}
@@ -145,7 +129,7 @@ AcooladBaz=[{]
     "until"       { return symbol("until");}
     "foreach"     { return symbol("foreach");}
     "in"          { return symbol("in");}
-    "sizeof"      { return symbol("sizeof");}
+    "Sizeof"      { return symbol("Sizeof");}
     "int"         { return symbol("base_type");}
     "long"        { return symbol("base_type");}
     "double"      { return symbol("base_type");}
@@ -156,7 +140,6 @@ AcooladBaz=[{]
     "new"         { return symbol("new");}
     "println"     { return symbol("println");}
     "input"       { return symbol("input");}
-
     "true"        { return symbol("true", Boolean.valueOf(yytext()));}
     "false"       { return symbol("false", Boolean.valueOf(yytext()));}
     /* VARIABLES */
@@ -173,18 +156,12 @@ AcooladBaz=[{]
     /* NUMBERS */
    {NoSignDecimal} {return symbol("int_const", Integer.valueOf(yytext()));}
       {DecimalInt} {return symbol("int_const", Integer.valueOf(yytext()));}
-   {DecimalLong}  {return symbol("long_const", Integer.parseInt(yytext().split("L",10)[0]));}
-
-
-      {HexaDecimal}  {return symbol("int_const", yytext());}
-
-
+   {Long}  {return symbol("long_const", Integer.parseInt(yytext().split("L",20)[0]));}
+      {HexaDecimal}  {return symbol("hex_const",Integer.parseInt(yytext().split("x", 20)[1],16));}
       {DoubleNumber} {return symbol("real_const", Double.valueOf(yytext()));}
-   {FloatNumber} {return symbol("float_const", Double.valueOf(yytext().split("F",10)[0]));}
-       {ScientificNumber1} {return symbol("real_const", (Integer.parseInt(yytext().split("e",10)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
-           {ScientificNumber2} {return symbol("real_const", (Integer.parseInt(yytext().split("e",10)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
-
-    /* WHITESPACE */
+   {FloatNumber} {return symbol("float_const", Double.valueOf(yytext().split("F",20)[0]));}
+       {ScientificNumber1} {return symbol("real_const", (Integer.parseInt(yytext().split("e",20)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
+           {ScientificNumber2} {return symbol("real_const", (Integer.parseInt(yytext().split("e",20)[0])*(Math.pow(10,Integer.parseInt(yytext().split("e",10)[1])))));}
     {WhiteSpace}        {/* skip */}
     {AcooladBaste} {return symbol("}");}
     {AcooladBaz}   {return symbol("{");}
@@ -203,31 +180,7 @@ AcooladBaz=[{]
 }
 {Comment}  {yybegin(YYINITIAL);}
 
-
-
 [^]        { throw new RuntimeException("Illegal character \""+yytext()+
                                         "\" at line "+yyline+", column "+yycolumn); }
 <<EOF>>    {return symbol("$");}
 
-
-/*After create Scanner file you must change somewheres :
-    **set the package name
-    **import HashSet<>
-    **make the class and it's constructor public
-    **implement it from Lexical
-    **add 'private MySymbol currentSymbol = null;' field
-    **add '@Override
-            public String nextToken() {
-              try {
-                currentSymbol = next_token();
-                return currentSymbol.getToken();
-              }catch (IOException e){
-                throw new RuntimeException("Unable to get next token", e);
-              }
-            }
-            @Override
-            public MySymbol currentToken() {
-              return currentSymbol;
-            }'
-        methods
-*/

@@ -1691,6 +1691,16 @@
         "isGlobal": false
       },
       {
+        "start": 71,
+        "end": 73,
+        "token": "hex_const",
+        "func": "pushInt",
+        "anchorX": 160.0,
+        "anchorY": 141.0,
+        "isGraph": false,
+        "isGlobal": false
+      },
+      {
         "start": 74,
         "end": 81,
         "token": "EXP",
@@ -4489,7 +4499,7 @@
       {
         "start": 223,
         "end": 224,
-        "token": "sizeof",
+        "token": "Sizeof",
         "func": "",
         "anchorX": 132.5,
         "anchorY": 419.0,

@@ -17,9 +17,9 @@ import java.util.Set;
 @Data
 public class SymTabHandler {
 
-   // public void setLastFunction(FunctionDCL lastFunction) {
+    // public void setLastFunction(FunctionDCL lastFunction) {
     //    LastFunction = lastFunction;
-   // }
+    // }
 
     public Loop getInnerLoop() {
         return innerLoop;
@@ -42,13 +42,12 @@ public class SymTabHandler {
     }
 
 
+    //  public HashMap<String, ArrayList<FunctionDCL>> getFuncDcls() {
+    //       return funcDcls;
+    // }
 
-  //  public HashMap<String, ArrayList<FunctionDCL>> getFuncDcls() {
- //       return funcDcls;
-   // }
-
-  //  public void setFuncDcls(HashMap<String, ArrayList<FunctionDCL>> funcDcls) {
-   ///     this.funcDcls = funcDcls;
+    //  public void setFuncDcls(HashMap<String, ArrayList<FunctionDCL>> funcDcls) {
+    ///     this.funcDcls = funcDcls;
     //}
 
     private static SymTabHandler instance = new SymTabHandler();
@@ -177,8 +176,7 @@ public class SymTabHandler {
             System.out.println("=============");
             System.out.println(Opcodes.T_BOOLEAN);
             return Opcodes.T_BOOLEAN;
-        }
-        else if (type == Type.FLOAT_TYPE)
+        } else if (type == Type.FLOAT_TYPE)
             return Opcodes.T_FLOAT;
         else
             throw new RuntimeException(type + " is not correct");
@@ -255,8 +253,11 @@ public class SymTabHandler {
     public DCSP getDescriptor(String name) {
         int symbolTbl = stackScopes.size() - 1;
         while (symbolTbl >= 0) {
-            if (stackScopes.get(symbolTbl).containsKey(name))
+            if (stackScopes.get(symbolTbl).containsKey(name)) {
+               // System.out.println("===================>");
+             //   System.out.println(stackScopes.get(symbolTbl).get(name));
                 return stackScopes.get(symbolTbl).get(name);
+            }
             symbolTbl--;
         }
         throw new RuntimeException("the name " + name + " didn't initial");
