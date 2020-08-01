@@ -5,11 +5,9 @@ import Parser.Parser;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new FileReader("test.txt"));
@@ -18,7 +16,8 @@ public class Main {
     }
 
     private static void parseInput(Scanner lexicalAnalyzer, CodeGenerator codeGenerator) {
-        Parser parser = new Parser(lexicalAnalyzer, codeGenerator, "src/main/java/Parser/Table.npt",true);
+        Parser parser = new Parser(lexicalAnalyzer,
+                codeGenerator, "src/main/java/Parser/Table.npt" , true);
         Node result;
         try {
 // Parse given file
@@ -51,5 +50,4 @@ public class Main {
 
         System.out.println("Code compiled successfully");
     }
-
 }
