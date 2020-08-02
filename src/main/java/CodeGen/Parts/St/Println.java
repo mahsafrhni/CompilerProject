@@ -16,15 +16,14 @@ public class Println extends Statement {
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        if(expression == null){
+        if (expression == null) {
             mv.visitLdcInsn("\n");
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
                     "(Ljava/lang/String;)V", false);
-
-        }else{
+        } else {
             expression.codegen(mv, cw);
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
-                    "("+ expression.getType() +")V", false);
+                    "(" + expression.getType() + ")V", false);
         }
     }
 }

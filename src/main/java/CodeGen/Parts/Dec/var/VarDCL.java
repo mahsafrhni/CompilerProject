@@ -8,6 +8,10 @@ import org.objectweb.asm.Type;
 
 @Data
 public abstract class VarDCL implements Op, InitExp, Dec {
+    protected String name;
+    protected Type type = null;
+    protected boolean global = true;
+
     public String getName() {
         return name;
     }
@@ -23,8 +27,4 @@ public abstract class VarDCL implements Op, InitExp, Dec {
     public void setType(Type type) {
         this.type = type;
     }
-
-    protected String name;
-    protected Type type = null;
-    protected boolean global = true;
 }

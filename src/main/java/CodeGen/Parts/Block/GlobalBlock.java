@@ -34,11 +34,7 @@ public class GlobalBlock implements Node {
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         new FuncCall("start", new ArrayList<>()).codegen(mv, cw);
-        // mv = cw.visitMethod(ACC_STATIC, "<clinit>",
-        //          "()V", null, null);
-        // mv.visitCode();
-        for (Node dec :
-                declarationList) {
+        for (Node dec : declarationList) {
             dec.codegen(mv, cw);
         }
         mv.visitMaxs(1, 1);

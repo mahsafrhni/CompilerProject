@@ -37,13 +37,16 @@ public class ArrDCL extends VarDCL {
     public ArrDCL(String name, String stringType, boolean global, Integer dimNum, Type type, List<Expression> dimensions) {
         this.name = name;
         if (!stringType.equals("auto")) {
-            if (!SymTabHandler.getTypeFromName(stringType).equals(type))
-                throw new RuntimeException("the types of array doesn't match");
-        } else if (dimensions == null)
-            throw new RuntimeException("auto variables must have been initialized");
+            if (!SymTabHandler.getTypeFromName(stringType).equals(type)) {
+                throw new RuntimeException("Error! the types of array doesn't match");
+            }
+        } else if (dimensions == null) {
+            throw new RuntimeException("Error! auto variables must have been initialized");
+        }
         if (dimNum != null) {
-            if (dimNum != dimensions.size())
-                throw new RuntimeException("dimensions are't correct");
+            if (dimNum != dimensions.size()) {
+                throw new RuntimeException("Error! dimensions are't correct");
+            }
             this.dimNum = dimNum;
         }
         this.type = type;
@@ -59,8 +62,7 @@ public class ArrDCL extends VarDCL {
             Type arrayType = Type.getType(repeatedArray + type.getDescriptor());
             cw.visitField(ACC_STATIC, name, arrayType.getDescriptor(), null, null).visitEnd();
         } else {
-            for (Expression dim :
-                    dimensions) {
+            for (Expression dim : dimensions) {
                 dim.codegen(mv, cw);
             }
             if (dimensions.size() == 0) {
@@ -97,6 +99,5 @@ public class ArrDCL extends VarDCL {
         else
             dscp = new GlobalArrDCSP(type, true, dimensions, dimNum);
         SymTabHandler.getInstance().addVariable(name, dscp);
-
     }
 }

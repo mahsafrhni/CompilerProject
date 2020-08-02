@@ -25,7 +25,6 @@ public class FuncCall extends Expression implements Op {
         if (parameters == null)
             parameters = new ArrayList<>();
         parameters.add(exp);
-
     }
 
     @Override
@@ -34,14 +33,13 @@ public class FuncCall extends Expression implements Op {
             parameter.codegen(mv, cw);
         }
         ArrayList<Type> paramTypes = new ArrayList<>();
-        for (Expression exp :
-                parameters) {
+        for (Expression exp : parameters) {
             paramTypes.add(exp.getType());
         }
         FunctionDCL func = SymTabHandler.getInstance().getFunction(id, paramTypes);
         this.type = func.getType();
         if (parameters.size() != func.getParameters().size())
-            throw new RuntimeException("error in func parameter");
+            throw new RuntimeException("Error! error in function parameter");
         mv.visitMethodInsn(INVOKESTATIC, "Main", func.getName(), func.getSignature(), false);
     }
 }

@@ -1,4 +1,5 @@
 package CodeGen.Parts.Dec.function;
+
 import CodeGen.Parts.Block.Block;
 import CodeGen.SymTab.DSCP.LocalArrDCSP;
 import CodeGen.SymTab.DSCP.LocalDCSP;
@@ -13,20 +14,22 @@ import org.objectweb.asm.Type;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
 public class FunctionDCL implements Dec {
     private Type type;
-    private String name;
+    private String name, signature;
     private List<ParamPair> parameters;
     private List<Type> paramTypes = new ArrayList<>();
-    private String signature;
     private Block block;
     private List<ReturnFunc> returns = new ArrayList<>();
+
     public Type getType() {
         return type;
     }
+
     public void setType(Type type) {
         this.type = type;
     }
@@ -77,12 +80,13 @@ public class FunctionDCL implements Dec {
         this.name = name;
         this.block = block;
         this.parameters = parameters;
-        // to fill paramTypes and make signature
         setSig();
     }
+
     public void declare() {
         SymTabHandler.getInstance().addFunction(this);
     }
+
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         setSig();
@@ -95,7 +99,7 @@ public class FunctionDCL implements Dec {
         methodVisitor.visitCode();
         block.codegen(methodVisitor, cw);
         if (returns.size() == 0)
-            throw new RuntimeException("You must use at least one return statement in function!");
+            throw new RuntimeException("Error! duplicate returns!");
 //        methodVisitor.visitMaxs(0, 0);
         methodVisitor.visitEnd();
         SymTabHandler.getInstance().popScope();
@@ -104,7 +108,11 @@ public class FunctionDCL implements Dec {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof FunctionDCL && checkIfEqual(((FunctionDCL) o).name, ((FunctionDCL) o).paramTypes);
+        if (o instanceof FunctionDCL)
+            if (checkIfEqual(((FunctionDCL) o).name, ((FunctionDCL) o).paramTypes)) {
+                return true;
+            }
+        return false;
     }
 
     // check if two functions are the same
@@ -114,8 +122,9 @@ public class FunctionDCL implements Dec {
         if (paramTypes.size() != this.paramTypes.size())
             return false;
         for (int i = 0; i < paramTypes.size(); i++) {
-            if (!this.paramTypes.get(i).equals(paramTypes.get(i)))
+            if (!this.paramTypes.get(i).equals(paramTypes.get(i))) {
                 return false;
+            }
         }
         return true;
     }
@@ -124,11 +133,11 @@ public class FunctionDCL implements Dec {
         paramTypes = new ArrayList<>();
         // to fill paramTypes and make signature
         StringBuilder signature = new StringBuilder("(");
-        for (ParamPair param :
-                parameters) {
+        for (ParamPair param : parameters) {
             Type type = param.dscp.getType();
-            if (param.dscp instanceof LocalArrDCSP)
+            if (param.dscp instanceof LocalArrDCSP) {
                 type = Type.getType("[" + param.dscp.getType());
+            }
             paramTypes.add(type);
             signature.append(type);
         }

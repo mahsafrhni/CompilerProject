@@ -21,7 +21,7 @@ public class Block implements Node {
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         if (operations == null)
-            throw new RuntimeException("No expression found!");
+            throw new RuntimeException("Error! No expression found!");
         for (Op op : operations) {
             op.codegen(mv, cw);
         }

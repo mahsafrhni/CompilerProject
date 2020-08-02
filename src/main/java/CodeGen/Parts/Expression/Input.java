@@ -16,28 +16,35 @@ public class Input extends Expression implements Op {
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         mv.visitTypeInsn(Opcodes.NEW, "java/util/Scanner");
         mv.visitInsn(Opcodes.DUP);
-        mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
-        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Scanner", "<init>", "(Ljava/io/InputStream;)V", false);
+        mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in",
+                "Ljava/io/InputStream;");
+        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Scanner", "<init>",
+                "(Ljava/io/InputStream;)V", false);
         if (type == null) {
             type = SymTabHandler.getTypeFromName("String");
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextLine", "()Ljava/lang/String;", false);
-
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextLine",
+                    "()Ljava/lang/String;", false);
         } else {
             switch (type.getDescriptor()) {
                 case "I":
-                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextInt", "()" + type.getDescriptor(), false);
+                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextInt",
+                            "()" + type.getDescriptor(), false);
                     break;
                 case "J":
-                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextLong", "()" + type.getDescriptor(), false);
+                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextLong",
+                            "()" + type.getDescriptor(), false);
                     break;
                 case "F":
-                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextFloat", "()" + type.getDescriptor(), false);
+                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextFloat",
+                            "()" + type.getDescriptor(), false);
                     break;
                 case "D":
-                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextDouble", "()" + type.getDescriptor(), false);
+                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextDouble",
+                            "()" + type.getDescriptor(), false);
                     break;
                 case "Z":
-                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextBoolean", "()" + type.getDescriptor(), false);
+                    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "nextBoolean",
+                            "()" + type.getDescriptor(), false);
                     break;
             }
         }
