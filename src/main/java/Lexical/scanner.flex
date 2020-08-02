@@ -14,11 +14,11 @@ private boolean flag = false;
 private HashSet<String> records = new HashSet<String>();
 private MySymbol symbol(String token)
 {
-    System.err.println("Obtain token " + token + " \"" + yytext() + "\"" );
+    System.err.println( "passed token: " + token +  " as" + " \"" + yytext() + "\"" );
     return new MySymbol(token, yytext());
 }
 private MySymbol symbol(String token, Object val) {
-    System.err.println( "Obtain token " + token + " \"" + yytext() + "\"" );
+    System.err.println( "passed token: " + token +  " as" + " \"" + yytext() + "\""  );
     return new MySymbol(token, val);
 }
  StringBuilder string = new StringBuilder();
