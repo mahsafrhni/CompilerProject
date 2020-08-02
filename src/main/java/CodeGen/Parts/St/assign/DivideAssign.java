@@ -28,7 +28,7 @@ public class DivideAssign extends Assignment {
             int index = ((LocalDCSP) dscp).getIndex();
             mv.visitVarInsn(variable.getType().getOpcode(ISTORE), index);
         } else
-            mv.visitFieldInsn(PUTSTATIC, "Test", variable.getName(), dscp.getType().toString());
+            mv.visitFieldInsn(PUTSTATIC, "Main", variable.getName(), dscp.getType().toString());
     }
 }
 

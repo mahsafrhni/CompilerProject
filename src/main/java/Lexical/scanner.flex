@@ -174,7 +174,7 @@ AcooladBaz=[{]
 }
 
 <STRING>{
-    \"                  {yybegin(YYINITIAL); string.append("\""); StringBuilder temp = string; string = new StringBuilder(); return symbol("string", temp.toString());}
+    \"                  {yybegin(YYINITIAL); string.append("\"");StringBuilder temp = string; string = new StringBuilder(); return symbol("string", temp.toString());}
     {StringCharacter}+  {string.append(yytext());}
     {SpecialCharacter}+ {string.append(yytext());}
 }

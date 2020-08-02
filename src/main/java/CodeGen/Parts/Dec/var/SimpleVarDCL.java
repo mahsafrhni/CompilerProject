@@ -88,8 +88,7 @@ public class SimpleVarDCL extends VarDCL {
             dscp = new GlobalVarDCSP(type, exp != null, constant);
         SymTabHandler.getInstance().addVariable(name, dscp);
     }
-    private void assign(Var variable, Expression expression,
-                        MethodVisitor mv, ClassWriter cw) {
+    private void assign(Var variable, Expression expression, MethodVisitor mv, ClassWriter cw) {
         DCSP dscp = variable.getDSCP();
         expression.codegen(mv, cw);
         if (variable.getType() != expression.getType())
@@ -98,7 +97,7 @@ public class SimpleVarDCL extends VarDCL {
             int index = ((LocalDCSP) dscp).getIndex();
             mv.visitVarInsn(variable.getType().getOpcode(ISTORE), index);
         } else
-            mv.visitFieldInsn(PUTSTATIC, "Test", variable.getName(), dscp.getType().toString());
+            mv.visitFieldInsn(PUTSTATIC, "Main", variable.getName(), dscp.getType().toString());
         dscp.setValid(true);
     }
 }
