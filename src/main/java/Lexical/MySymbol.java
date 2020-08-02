@@ -10,7 +10,6 @@ public class MySymbol {
 
     public MySymbol(String token, Object value) {
         this.token = token;
-
         this.value = value;
     }
 

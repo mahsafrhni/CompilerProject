@@ -6,7 +6,6 @@ import CodeGen.Parts.St.condition.Switch;
 import CodeGen.Parts.St.loop.Loop;
 import CodeGen.SymTab.DSCP.DCSP;
 import CodeGen.SymTab.DSCP.LocalDCSP;
-//import lombok.Data;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-//@Data
 public class SymTabHandler {
     public Loop getInnerLoop() {
         return innerLoop;
@@ -69,6 +67,8 @@ public class SymTabHandler {
         switch (name) {
             case "int":
             case "Integer":
+            case "string":
+            case "String":
                 size = Integer.SIZE;
                 break;
             case "long":
@@ -90,10 +90,6 @@ public class SymTabHandler {
             case "float":
             case "Float":
                 size = Float.SIZE;
-                break;
-            case "string":
-            case "String":
-                size = Integer.SIZE;
                 break;
             default:
                 throw new IllegalArgumentException("! not a valid Type.");
@@ -159,7 +155,7 @@ public class SymTabHandler {
         else if (type == Type.CHAR_TYPE)
             return Opcodes.T_CHAR;
         else if (type == Type.BOOLEAN_TYPE) {
-            System.out.println("=============");
+           // System.out.println("=============");
             System.out.println(Opcodes.T_BOOLEAN);
             return Opcodes.T_BOOLEAN;
         } else if (type == Type.FLOAT_TYPE)
@@ -198,9 +194,8 @@ public class SymTabHandler {
                 if ((lastfunc.getBlock() != null && funcDcl.getBlock() != null) ||
                         (lastfunc.getBlock() == null && funcDcl.getBlock() == null)){
                     if (funcDcl.getType().equals(lastfunc.getType()))
-                        throw new RuntimeException("the function is duplicate!!!");
+                        throw new RuntimeException("The function is declared previously!!");
                 }
-
             } else {
                 funcDcls.get(funcDcl.getName()).add(funcDcl);
             }
@@ -220,10 +215,8 @@ public class SymTabHandler {
                     return f;
                 }
             }
-            throw new RuntimeException("there is no " + name + "function with  this inputs: " + inputs);
-        } else {
-            throw new RuntimeException("there is no " + name + "function with  this inputs: " + inputs);
         }
+        throw new RuntimeException("there is no " + name + "function with  this inputs: " + inputs);
     }
 
     public void addVariable(String name, DCSP dscp) {
@@ -232,7 +225,7 @@ public class SymTabHandler {
         }
         if (dscp instanceof LocalDCSP) {
             getLastScope().put(name, dscp);
-            getLastScope().addIndex(dscp.getType().getSize() - 1);
+            getLastScope().addIndex();
         } else
             stackScopes.get(0).put(name, dscp);
     }

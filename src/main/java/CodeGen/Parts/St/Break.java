@@ -27,6 +27,6 @@ public class Break extends Statement {
                 }
             }
         } else
-            throw new RuntimeException("This part is not switch nor Loop");
+            throw new RuntimeException("Error! it is not switch or Loop");
     }
 }

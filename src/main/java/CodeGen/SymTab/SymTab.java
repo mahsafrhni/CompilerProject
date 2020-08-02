@@ -7,6 +7,9 @@ import java.util.HashMap;
 
 @Data
 public class SymTab extends HashMap<String, DCSP> {
+    private int index = 0;
+    private Scope typeOfScope;
+
     public void setIndex(int index) {
         this.index = index;
     }
@@ -19,10 +22,7 @@ public class SymTab extends HashMap<String, DCSP> {
         this.typeOfScope = typeOfScope;
     }
 
-    private int index = 0;
-    private Scope typeOfScope;
-
-    public void addIndex(int add) {
+    public void addIndex() {
         index++;
     }
 

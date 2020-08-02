@@ -37,15 +37,13 @@ public class ArrVar extends Var {
 
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
-
-        new SimpleVar(name,type).codegen(mv, cw);
+        new SimpleVar(name, type).codegen(mv, cw);
         Label exceptionLabel = new Label();
         Label endLabel = new Label();
-
         for (int i = 0; i < dimensions.size() - 1; i++) {
             dimensions.get(i).codegen(mv, cw);
             DCSP dscp = SymTabHandler.getInstance().getDescriptor(name);
-            if (dscp instanceof GlobalArrDCSP){
+            if (dscp instanceof GlobalArrDCSP) {
                 BiggerEqual biggerEqual = new BiggerEqual(dimensions.get(i), ((GlobalArrDCSP) dscp).getDimList().get(i));
                 biggerEqual.codegen(mv, cw);
                 mv.visitJumpInsn(IFGE, exceptionLabel);
@@ -56,11 +54,10 @@ public class ArrVar extends Var {
         }
         // must load the last index separately
         dimensions.get(dimensions.size() - 1).codegen(mv, cw);
-        if(type.getDescriptor().endsWith(";")) // we have array of records
+        if (type.getDescriptor().endsWith(";")) // we have array of records
             mv.visitInsn(AALOAD);
         else
             mv.visitInsn(type.getOpcode(IALOAD));
-
         mv.visitJumpInsn(GOTO, endLabel);
         mv.visitLabel(exceptionLabel);
         mv.visitTypeInsn(NEW, "java/lang/RuntimeException");

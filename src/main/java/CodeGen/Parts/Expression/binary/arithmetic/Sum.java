@@ -17,7 +17,7 @@ public class Sum extends BinaryExpression {
         firstop.codegen(mv, cw);
         secondop.codegen(mv, cw);
         if (!firstop.getType().equals(secondop.getType()))
-            throw new RuntimeException("types not match for " + this.getClass().getName());
+            throw new RuntimeException("Error! types not match for " + this.getClass().getName());
         type = firstop.getType();
         mv.visitInsn(type.getOpcode(IADD));
     }

@@ -4,7 +4,7 @@ import CodeGen.Parts.Expression.Expression;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
-public class XOR extends ConditionalExpression {
+public class XOR extends ConditionalExpression { //xor
     public XOR(Expression firstop, Expression secondop) {
         super(firstop, secondop);
     }

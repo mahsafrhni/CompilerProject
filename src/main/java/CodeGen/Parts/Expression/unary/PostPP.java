@@ -21,7 +21,7 @@ public class PostPP extends UnaryExpression implements InitExp, StepExp, Op { //
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         type = operand.getType();
         if (!(operand instanceof Var) || (type != Type.INT_TYPE && type != Type.LONG_TYPE ))
-            throw new RuntimeException("the operand is wrong");
+            throw new RuntimeException("Error! the operand is wrong");
         Var var = (Var) operand;
         checkConst(var);
         // storing the last value in temporary variable

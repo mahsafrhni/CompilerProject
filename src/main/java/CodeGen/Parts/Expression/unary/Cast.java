@@ -20,7 +20,7 @@ public class Cast extends UnaryExpression {
         if(from == to)
             return;
         if(to != Type.INT_TYPE && to != Type.LONG_TYPE && to != Type.DOUBLE_TYPE && to != Type.FLOAT_TYPE)
-            throw new RuntimeException("the cast is wrong!!");
+            throw new RuntimeException("Error! the cast is wrong!");
         mv.visitInsn(getOpcode(from,to));
         type = to;
     }
@@ -43,7 +43,6 @@ public class Cast extends UnaryExpression {
                 opcode = Opcodes.L2D;
             else
                 opcode = Opcodes.L2F;
-
         }
         else if(from == Type.DOUBLE_TYPE){
             if(to == Type.INT_TYPE)

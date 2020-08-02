@@ -22,7 +22,7 @@ public class ReturnFunc extends Statement {
         if((expression == null && !funcDcl.getType().equals(Type.VOID_TYPE)) ||
                 (expression != null && (funcDcl.getType().equals(Type.VOID_TYPE) ||
                         !funcDcl.getType().equals(expression.getType()) )))
-            throw new RuntimeException("Return type mismatch");
+            throw new RuntimeException("Error! Return type does not match");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ReturnFunc extends Statement {
         for (int i = 0; i < index; i++)  {
             ReturnFunc funcReturn = functionDcl.getReturns().get(i);
             if(funcReturn.scope.equals(scope)) {
-                throw new RuntimeException("more than one return in single scope -__-");
+                throw new RuntimeException("Error! more than one return in scope");
             }
         }
         if(expression == null) {
@@ -43,7 +43,7 @@ public class ReturnFunc extends Statement {
             expression.codegen(mv, cw);
             //mv.visitInsn(Cast.getOpcode(expression.getType(),functionDcl.getType()));
             if(!expression.getType().equals(functionDcl.getType()))
-                throw new RuntimeException("Return types don't match");
+                throw new RuntimeException("Error! Return types don't match");
             mv.visitInsn(expression.getType().getOpcode(IRETURN));
         }
 

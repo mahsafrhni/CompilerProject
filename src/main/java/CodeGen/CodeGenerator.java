@@ -40,8 +40,6 @@ import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static sun.security.krb5.Confounder.longValue;
-
 public class CodeGenerator implements Parser.CodeGenerator {
     private Lexical lexical;
     private SS semanticStack;
@@ -60,7 +58,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
 
     public void doSemantic(String sem) {
         switch (sem) {
-            /* --------------------- global --------------------- */
             case "push": {
                 semanticStack.push(lexical.currentToken().getValue());
                 temp = lexical.currentToken().getValue();
@@ -80,7 +77,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new Block(new ArrayList<>()));
                 break;
             }
-            /* --------------------- declarations --------------------- */
             case "mkFuncDCL": {
                 Type type = SymTabHandler.getTypeFromName((String) semanticStack.pop());
                 FunctionDCL functionDcl = new FunctionDCL(type,
@@ -132,12 +128,11 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new NOP(varName));
                 break;
             }
-            //begin
             case "pushBlock": {
                 semanticStack.push(new Block(new ArrayList<>()));
                 break;
             }
-            case "addBlock": { //fill function's block
+            case "addBlock": {
                 if (counter == 1) {
                     Op operation = (Op) semanticStack.pop();
                     Block block = (Block) semanticStack.pop();
@@ -249,8 +244,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(arrDcl);
                 break;
             }
-            /* --------------------- binary expressions --------------------- */
-            /* ---------------------- Arithmetic ------------------------ */
             case "div": {
                 Expression second = (Expression) semanticStack.pop();
                 Expression first = (Expression) semanticStack.pop();
@@ -281,7 +274,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new Sum(first, second));
                 break;
             }
-            /* ---------------------- conditional ------------------------- */
             case "and": {
                 Expression second = (Expression) semanticStack.pop();
                 Expression first = (Expression) semanticStack.pop();
@@ -354,7 +346,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new XORbit(first, second));
                 break;
             }
-            /* -------------------------- Unary   ---------------------------- */
             case "cast": {
                 Expression exp = (Expression) semanticStack.pop();
                 Type newType = SymTabHandler.getTypeFromName((String) semanticStack.pop());
@@ -403,7 +394,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new PrePP(var));
                 break;
             }
-            /* -------------------------- Const ---------------------------- */
             case "pushReal": {
                 Object realNum = lexical.currentToken().getValue();
                 if (realNum instanceof Float)
@@ -445,22 +435,21 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new StringConst((String) lexical.currentToken().getValue()));
                 break;
             }
-            /* -------------------------- variable ---------------------------- */
             case "pushVar": {
                 String name = (String) lexical.currentToken().getValue();
                 if (SymTabHandler.getInstance().getFuncNames().contains(name)) {
                     semanticStack.push(name);
-                    System.out.println("1");
+                    //  System.out.println("1");
                     break;
                 }
                 DCSP dscp = SymTabHandler.getInstance().getDescriptor(name);
                 if (dscp instanceof GlobalVarDCSP || dscp instanceof LocalVarDCSP) {
-                    System.out.println("2");
+                    //  System.out.println("2");
                     semanticStack.push(new SimpleVar(name, dscp.getType()));
                     System.out.println(new SimpleVar(name, dscp.getType()));
                 } else if (dscp instanceof GlobalArrDCSP || dscp instanceof LocalArrDCSP) {
                     semanticStack.push(new ArrVar(name, new ArrayList<>(), dscp.getType()));
-                    System.out.println("3");
+                    // System.out.println("3");
                 }
                 break;
             }
@@ -483,7 +472,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new ArrVar(var.getName(), expressionList, var.getType()));
                 break;
             }
-            /* -------------------------- Assignment -------------------------- */
             case "assign": {
                 Expression exp = (Expression) semanticStack.pop();
                 Var var = (Var) semanticStack.pop();
@@ -555,7 +543,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new NOP());
                 break;
             }
-            /* ---------------------- functions ---------------------------- */
             case "voidReturn": {
                 Block block = (Block) semanticStack.pop();
                 FunctionDCL functionDcl = SymTabHandler.getInstance().getLastFunction();
@@ -595,8 +582,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(funcCall);
                 break;
             }
-            /* --------------------- loops --------------------- */
-            /* --------------------- for --------------------- */
             case "changeTop": {
                 Expression exp = (Expression) semanticStack.pop();
                 Byte flag = (Byte) semanticStack.pop();
@@ -645,15 +630,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new For(block, initExp, exp, stepExp));
                 break;
             }
-            /* --------------------- repeat --------------------- */
             case "repeat": {
                 Expression exp = (Expression) semanticStack.pop();
                 Block block = (Block) semanticStack.pop();
                 semanticStack.push(new Repeat(block, exp));
                 break;
             }
-            /* --------------------- conditions --------------------- */
-            /* --------------------- if --------------------- */
             case "if": {
                 Block block = (Block) semanticStack.pop();
                 Expression exp = (Expression) semanticStack.pop();
@@ -667,7 +649,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(ifSt);
                 break;
             }
-            /* --------------------- switch --------------------- */
             case "switch": {
                 Expression exp = (Expression) semanticStack.pop();
                 semanticStack.push(new Switch(exp, new ArrayList<>(), null));
@@ -689,7 +670,6 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(switchSt);
                 break;
             }
-            /* --------------------- special method calls --------------------- */
             case "print": {
                 Expression expression = (Expression) semanticStack.pop();
                 semanticStack.push(new Println(expression));
@@ -708,11 +688,11 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 semanticStack.push(new Input(null));
                 break;
             }
-           case "len": {
-               Expression expression = (Expression) semanticStack.pop();
-              semanticStack.push(new Len(expression));
-               break;
-           }
+            case "len": {
+                Expression expression = (Expression) semanticStack.pop();
+                semanticStack.push(new Len(expression));
+                break;
+            }
             case "sizeof": {
                 String id = (String) semanticStack.pop();
                 String base = SymTabHandler.getInstance().getDescriptor(id).getType().toString();
@@ -761,13 +741,12 @@ public class CodeGenerator implements Parser.CodeGenerator {
                 GlobalBlock.getInstance().getDeclarationList().remove(lastFunc);
                 GlobalBlock.getInstance().addDeclaration(function);
             } else if (lastFunc.getBlock() != null && lastFunc.getBlock() == null) {
-            } else if (function.getType().equals(lastFunc.getType())){
+            } else if (function.getType().equals(lastFunc.getType())) {
                 throw new RuntimeException("the function is duplicate!!!");
             }
         } else {
             GlobalBlock.getInstance().addDeclaration(function);
         }
-
     }
 
     private void checkAssign(Var variable) {

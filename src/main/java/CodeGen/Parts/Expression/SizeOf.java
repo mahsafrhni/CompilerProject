@@ -10,8 +10,8 @@ import org.objectweb.asm.Type;
 public class SizeOf extends Expression implements Op {
     private Integer value;
 
-    public SizeOf(String baseType) {
-        value = SymTabHandler.getSize(baseType);
+    public SizeOf(String id) {
+        value = SymTabHandler.getSize(id);
         type = Type.INT_TYPE;
     }
 

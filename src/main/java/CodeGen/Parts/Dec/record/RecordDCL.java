@@ -7,6 +7,8 @@ import org.objectweb.asm.MethodVisitor;
 
 @Data
 public class RecordDCL implements Dec {
+    private String name;
+
     public RecordDCL(String name) {
         this.name = name;
     }
@@ -18,8 +20,6 @@ public class RecordDCL implements Dec {
     public void setName(String name) {
         this.name = name;
     }
-
-    private String name;
 
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {

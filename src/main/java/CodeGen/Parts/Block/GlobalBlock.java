@@ -10,16 +10,14 @@ import org.objectweb.asm.MethodVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-
 @Data
 public class GlobalBlock implements Node {
+    private List<Node> declarationList;
+    private static GlobalBlock instance = new GlobalBlock();
+
     public List<Node> getDeclarationList() {
         return declarationList;
     }
-
-    private List<Node> declarationList;
-    private static GlobalBlock instance = new GlobalBlock();
 
     public static GlobalBlock getInstance() {
         return instance;
@@ -36,9 +34,9 @@ public class GlobalBlock implements Node {
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         new FuncCall("start", new ArrayList<>()).codegen(mv, cw);
-       // mv = cw.visitMethod(ACC_STATIC, "<clinit>",
-      //          "()V", null, null);
-       // mv.visitCode();
+        // mv = cw.visitMethod(ACC_STATIC, "<clinit>",
+        //          "()V", null, null);
+        // mv.visitCode();
         for (Node dec :
                 declarationList) {
             dec.codegen(mv, cw);

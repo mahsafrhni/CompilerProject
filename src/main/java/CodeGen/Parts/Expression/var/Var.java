@@ -6,7 +6,6 @@ import CodeGen.SymTab.SymTabHandler;
 import org.objectweb.asm.Type;
 
 public abstract class Var extends Expression {
-
     String name;
 
     public String getName() {

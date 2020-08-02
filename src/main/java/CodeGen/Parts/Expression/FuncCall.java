@@ -15,7 +15,6 @@ import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 public class FuncCall extends Expression implements Op {
     private String id;
     private List<Expression> parameters;
-    private FunctionDCL func;
 
     public FuncCall(String id, ArrayList<Expression> parameters) {
         this.id = id;
@@ -39,7 +38,7 @@ public class FuncCall extends Expression implements Op {
                 parameters) {
             paramTypes.add(exp.getType());
         }
-        this.func = SymTabHandler.getInstance().getFunction(id, paramTypes);
+        FunctionDCL func = SymTabHandler.getInstance().getFunction(id, paramTypes);
         this.type = func.getType();
         if (parameters.size() != func.getParameters().size())
             throw new RuntimeException("error in func parameter");

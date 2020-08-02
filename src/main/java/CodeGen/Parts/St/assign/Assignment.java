@@ -8,7 +8,6 @@ import CodeGen.Parts.St.loop.InitExp;
 import CodeGen.Parts.St.loop.StepExp;
 import CodeGen.SymTab.DSCP.DCSP;
 import CodeGen.SymTab.DSCP.GlobalVarDCSP;
-import CodeGen.SymTab.DSCP.LocalVarDCSP;
 import CodeGen.SymTab.SymTabHandler;
 
 public abstract class Assignment extends Statement implements InitExp, StepExp {
@@ -24,10 +23,10 @@ public abstract class Assignment extends Statement implements InitExp, StepExp {
         boolean isConst = false;
         if (variable instanceof SimpleVar) {
             DCSP dscp = SymTabHandler.getInstance().getDescriptor(variable.getName());
-            isConst = (dscp instanceof GlobalVarDCSP) ? ((GlobalVarDCSP) dscp).isConstant() : ((LocalVarDCSP) dscp).isConstant();
+            isConst = (dscp instanceof GlobalVarDCSP) ? dscp.isConstant() : dscp.isConstant();
         }
         if (isConst)
-            throw new RuntimeException("Const variables can't assign");
+            throw new RuntimeException("Error! Const variables can't assign");
     }
 
 }

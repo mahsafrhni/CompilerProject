@@ -174,7 +174,7 @@ public class Parser {
                 availableTokens.add(symbols[i]);
             }
         }
-        recoveryState.add("At node " + currentNode + ": current token is " + token + " but except: " + availableTokens);
+        recoveryState.add("At node " + currentNode + ": current token is " + token + " but should be: " + availableTokens);
     }
 
     private int nextTokenID() {

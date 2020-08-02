@@ -5,6 +5,10 @@ import org.objectweb.asm.Type;
 
 @Data
 public abstract class DCSP {
+    protected Type type;
+    protected boolean isValid;
+    protected boolean constant;
+
     public Type getType() {
         return type;
     }
@@ -28,10 +32,6 @@ public abstract class DCSP {
     public void setConstant(boolean constant) {
         this.constant = constant;
     }
-
-    protected Type type;
-    protected boolean isValid;
-    protected boolean constant;
 
     public DCSP(Type type, boolean isValid) {
         this.type = type;

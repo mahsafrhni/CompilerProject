@@ -9,5 +9,4 @@ public class LocalVarDCSP extends LocalDCSP {
         super(type, isValid, index);
         this.constant = constant;
     }
-
 }

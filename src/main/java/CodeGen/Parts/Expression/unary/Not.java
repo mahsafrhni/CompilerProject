@@ -18,7 +18,7 @@ public class Not extends UnaryExpression { //not
         operand.codegen(mv,cw);
         type = operand.getType();
         if(type != Type.INT_TYPE && type != Type.LONG_TYPE && type != Type.BOOLEAN_TYPE)
-            throw new RuntimeException("It's not real or integer or bool.so I can't not it!");
+            throw new RuntimeException("Error! It's not real or integer or bool .so you can't not it!");
         Object res = ((ConstExpression)operand).getValue();
         if(res instanceof Boolean)
             mv.visitInsn(((Boolean)res) ? ICONST_1:ICONST_0);

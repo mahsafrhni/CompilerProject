@@ -19,7 +19,7 @@ function void start(){
     double d = 2.3;
     char ch ='c';
     string name = "mahsa";
-    bool flag=true;
+    bool flag = true;
     long lnumber = 12349567L;
     float fnumber = 34.23F;
     int v = 0x23c41a;

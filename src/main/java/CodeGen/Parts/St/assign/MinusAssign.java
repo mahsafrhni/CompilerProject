@@ -11,7 +11,7 @@ import org.objectweb.asm.Opcodes;
 import static org.objectweb.asm.Opcodes.ISTORE;
 import static org.objectweb.asm.Opcodes.PUTSTATIC;
 
-public class MinusAssign extends Assignment{
+public class MinusAssign extends Assignment {
 
     public MinusAssign(Expression expression, Var variable) {
         super(expression, variable);
@@ -23,17 +23,13 @@ public class MinusAssign extends Assignment{
         DCSP dscp = variable.getDSCP();
         variable.codegen(mv, cw);
         expression.codegen(mv, cw);
-
         if (variable.getType() != expression.getType())
-            throw new RuntimeException("you should cast expression!");
-
+            throw new RuntimeException("Error! you should cast expression!");
         mv.visitInsn(variable.getType().getOpcode(Opcodes.ISUB));
-
-        if(dscp instanceof LocalDCSP) {
+        if (dscp instanceof LocalDCSP) {
             int index = ((LocalDCSP) dscp).getIndex();
             mv.visitVarInsn(variable.getType().getOpcode(ISTORE), index);
-        }
-        else
+        } else
             mv.visitFieldInsn(PUTSTATIC, "Main", variable.getName(), dscp.getType().toString());
     }
 }

@@ -1,38 +1,32 @@
 package CodeGen.Parts.Dec.function;
-
 import CodeGen.Parts.Block.Block;
 import CodeGen.SymTab.DSCP.LocalArrDCSP;
 import CodeGen.SymTab.DSCP.LocalDCSP;
-
 import CodeGen.Parts.Dec.Dec;
 import CodeGen.Parts.St.ReturnFunc;
 import CodeGen.SymTab.DSCP.LocalVarDCSP;
 import CodeGen.SymTab.Scope;
 import CodeGen.SymTab.SymTabHandler;
-//import lombok.Data;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
-//@Data
 public class FunctionDCL implements Dec {
     private Type type;
     private String name;
-    private List<ParamPair> parameters = new ArrayList<>();
+    private List<ParamPair> parameters;
     private List<Type> paramTypes = new ArrayList<>();
     private String signature;
-
+    private Block block;
+    private List<ReturnFunc> returns = new ArrayList<>();
     public Type getType() {
         return type;
     }
-
     public void setType(Type type) {
         this.type = type;
     }
@@ -49,11 +43,9 @@ public class FunctionDCL implements Dec {
         return parameters;
     }
 
-
     public String getSignature() {
         return signature;
     }
-
 
     public Block getBlock() {
         return block;
@@ -66,10 +58,6 @@ public class FunctionDCL implements Dec {
     public List<ReturnFunc> getReturns() {
         return returns;
     }
-
-
-    private Block block;
-    private List<ReturnFunc> returns = new ArrayList<>();
 
     public void addReturn(ReturnFunc funcReturn) {
         returns.add(funcReturn);
@@ -92,19 +80,9 @@ public class FunctionDCL implements Dec {
         // to fill paramTypes and make signature
         setSig();
     }
-
-    public FunctionDCL(String name, String signature, Block block) {
-        this.signature = signature;
-        paramTypes = Arrays.asList(Type.getArgumentTypes(signature));
-        this.type = Type.getType(signature.substring(signature.indexOf(')') + 1));
-        this.name = name;
-        this.block = block;
-    }
-
     public void declare() {
         SymTabHandler.getInstance().addFunction(this);
     }
-
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         setSig();
@@ -112,9 +90,7 @@ public class FunctionDCL implements Dec {
                 name, this.signature, null, null);
         //Add current function's symbol table to stackScope
         SymTabHandler.getInstance().addScope(Scope.FUNCTION);
-        parameters.forEach((paramPair) -> {
-            SymTabHandler.getInstance().addVariable(paramPair.name, paramPair.dscp);
-        });
+        parameters.forEach((paramPair) -> SymTabHandler.getInstance().addVariable(paramPair.name, paramPair.dscp));
         SymTabHandler.getInstance().setLastFunction(this);
         methodVisitor.visitCode();
         block.codegen(methodVisitor, cw);

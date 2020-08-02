@@ -15,6 +15,6 @@ public class Continue extends Statement {
         if(SymTabHandler.getInstance().getInnerLoop() != null)
             mv.visitJumpInsn(GOTO, SymTabHandler.getInstance().getInnerLoop().getStartLoop());
         else
-            throw new RuntimeException("This part is not switch nor Loop");
+            throw new RuntimeException("Error! it is not switch or Loop");
     }
 }

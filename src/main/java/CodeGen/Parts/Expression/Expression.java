@@ -10,7 +10,7 @@ abstract public class Expression implements Node {
 
     public Type getType() {
         if (type == null)
-            throw new RuntimeException("The type of expression is not set!");
+            throw new RuntimeException("Error! The type is not set!");
         return type;
     }
 }

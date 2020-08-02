@@ -10,7 +10,6 @@ import static org.objectweb.asm.Opcodes.ICONST_1;
 abstract class ConditionalExpression extends BinaryExpression {
     ConditionalExpression(Expression firstop, Expression secondop) {
         super(firstop, secondop);
-
     }
 
     void cmp(int notIntOpcode, int intOpcode, MethodVisitor mv, ClassWriter cw) {
@@ -19,7 +18,7 @@ abstract class ConditionalExpression extends BinaryExpression {
         System.out.println(firstop.getType());
         System.out.println(secondop.getType());
         if (!firstop.getType().equals(secondop.getType()))
-            throw new RuntimeException("types not match for " + this.getClass().getName());
+            throw new RuntimeException("Error! types not match for " + this.getClass().getName());
         type = firstop.getType();
         int opcode;
         if (type == Type.FLOAT_TYPE) {
@@ -34,13 +33,6 @@ abstract class ConditionalExpression extends BinaryExpression {
         } else {
             opcode = intOpcode;
         }
-        /*
-        jnz opcode, label1 (if this is true, the main exp will be false)
-        code for TRUE
-        GOTO label2
-        label1: code for FALSE
-        label2: ...
-        */
         Label label1 = new Label();
         Label label2 = new Label();
         mv.visitJumpInsn(opcode, label1);
@@ -54,11 +46,6 @@ abstract class ConditionalExpression extends BinaryExpression {
     void AndOr(boolean isAnd, MethodVisitor mv, ClassWriter cw) {
         Label label = new Label();
         Label EndLabel = new Label();
-        // handled short circuit
-        // for AND if one operand is zero(false) we should jp to code for false(ICONST_0)that is label
-        // for OR if one operand is not zero(true) we should jp to code for true(ICONST_1)that is label, too
-        // for AND if the result will be true, we should do the code for ICONST_1 and then GOTO out(EndLabel)
-        // for OR if the result will be false, we should do the code for ICONST_0 and then GOTO out(EndLabel)
         firstop.codegen(mv, cw);
         mv.visitJumpInsn(isAnd ? IFEQ : IFNE, label);
         secondop.codegen(mv, cw);
@@ -69,10 +56,10 @@ abstract class ConditionalExpression extends BinaryExpression {
         mv.visitInsn(isAnd ? ICONST_0 : ICONST_1);
         mv.visitLabel(EndLabel);
         if (!firstop.getType().equals(secondop.getType()))
-            throw new RuntimeException("types not match for " + this.getClass().getName());
+            throw new RuntimeException("Error! types not match for " + this.getClass().getName());
         type = firstop.getType();
         if (type != Type.BOOLEAN_TYPE && type != Type.INT_TYPE)
-            throw new RuntimeException("Only boolean and int Types Can Be Operands Of Conditional And");
+            throw new RuntimeException("Error! Only boolean and int Types Can Be Operands Of Conditional And");
     }
 }
 

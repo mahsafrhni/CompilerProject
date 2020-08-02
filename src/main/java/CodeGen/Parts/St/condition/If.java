@@ -46,7 +46,7 @@ public class If extends Statement {
     @Override
     public void codegen(MethodVisitor mv, ClassWriter cw) {
         SymTabHandler.getInstance().addScope(Scope.IF);
-        NotEqual notEqual = new NotEqual(expression, new IntegerConst(0));
+       // NotEqual notEqual = new NotEqual(expression, new IntegerConst(0));
        // notEqual.codegen(mv, cw);
         mv.visitJumpInsn(IFEQ, startElse);
         ifBlock.codegen(mv, cw);

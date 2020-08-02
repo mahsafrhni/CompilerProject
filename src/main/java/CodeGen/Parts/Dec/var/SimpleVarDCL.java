@@ -21,7 +21,6 @@ import static org.objectweb.asm.Opcodes.ACC_FINAL;
 public class SimpleVarDCL extends VarDCL {
     private boolean constant;
     private Expression exp;
-    private String stringType;
     public void setExp(Expression exp) {
         this.exp = exp;
         SymTabHandler.getInstance().getDescriptor(name).setValid(true);
@@ -34,7 +33,6 @@ public class SimpleVarDCL extends VarDCL {
     }
     public SimpleVarDCL(String varName, String type, boolean constant, boolean global, Expression exp) {
         name = varName;
-        stringType = type;
         if (!type.equals("auto"))
             this.type = SymTabHandler.getTypeFromName(type);
         else
@@ -44,7 +42,7 @@ public class SimpleVarDCL extends VarDCL {
         this.exp = exp;
         if (this.type == null)
             if (exp == null)
-                throw new RuntimeException("the auto variable must be have expression");
+                throw new RuntimeException("Error! the auto variable must be initialized!");
             else
                 phonyExpExe();
     }
@@ -56,19 +54,18 @@ public class SimpleVarDCL extends VarDCL {
             declare();
         }
         if (global) {
-            Expression value = null;
             int access = ACC_STATIC;
             access += constant ? ACC_FINAL : 0;
             cw.visitField(access, name, type.getDescriptor(),
-                    null, value).visitEnd();
+                    null, null).visitEnd();
             if (exp != null) {
                 executeGlobalExp(cw, mv);
             }
         } else if (exp != null) {
             exp.codegen(mv, cw);
             if (!exp.getType().equals(type))
-                throw new RuntimeException("the type of variable and expression doesn't match" +
-                        "   " + "the type of var " + type + "   " + "the type of exp " + exp.getType());
+                throw new RuntimeException("Error!the type of variable and expression are not same! " +
+                        "   " + "the type of variable " + type + "   " + "the type of exp " + exp.getType());
             LocalVarDCSP dscp = (LocalVarDCSP) SymTabHandler.getInstance().getDescriptor(name);
             mv.visitVarInsn(type.getOpcode(ISTORE), dscp.getIndex());
         }
@@ -96,7 +93,7 @@ public class SimpleVarDCL extends VarDCL {
         DCSP dscp = variable.getDSCP();
         expression.codegen(mv, cw);
         if (variable.getType() != expression.getType())
-            throw new RuntimeException("you should cast expression!");
+            throw new RuntimeException("Error! you should cast!");
         if (dscp instanceof LocalDCSP) {
             int index = ((LocalDCSP) dscp).getIndex();
             mv.visitVarInsn(variable.getType().getOpcode(ISTORE), index);
@@ -105,7 +102,6 @@ public class SimpleVarDCL extends VarDCL {
         dscp.setValid(true);
     }
 }
-
 
 class TempMethodVisitor extends MethodVisitor {
     public TempMethodVisitor() {
